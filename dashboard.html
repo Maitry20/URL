@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnipLink - Dashboard</title>
+    <!-- Google Fonts: Inter and Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- HTMX CDN -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <!-- HTMX JSON encoding extension -->
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#030712',
+                            card: '#0f172a',
+                            border: '#1e293b',
+                            primary: '#6366f1',
+                            secondary: '#06b6d4',
+                            accent: '#a855f7',
+                            text: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            overflow-x: hidden;
+        }
+        .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+        .htmx-indicator {
+            display: none;
+        }
+        .htmx-request .htmx-indicator {
+            display: inline-block;
+        }
+        .htmx-request .btn-text {
+            display: none;
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between relative opacity-0">
+
+    <!-- Auth check script (runs instantly before body renders to prevent layout flashes) -->
+    <script>
+        if (!localStorage.getItem('token')) {
+            window.location.href = '/login.html';
+        } else {
+            // Unhide body once authenticated
+            document.body.style.opacity = '1';
+        }
+    </script>
+
+    <!-- Background Ambient Glows -->
+    <div class="absolute top-[-20%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-indigo-950/10 blur-[130px] pointer-events-none z-0 blob-1"></div>
+    <div class="absolute bottom-[-20%] right-[-20%] w-[55vw] h-[55vw] rounded-full bg-purple-950/10 blur-[130px] pointer-events-none z-0 blob-2"></div>
+
+    <!-- Toast Container (Top Right for Notifications) -->
+    <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <!-- Dashboard Header -->
+    <header class="relative z-10 border-b border-slate-900 bg-brand-bg/60 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/10">
+                    <i class="fa-solid fa-link text-base"></i>
+                </div>
+                <span class="font-display font-bold text-xl bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnipLink</span>
+            </a>
+            
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800/80">
+                    <div class="w-6 h-6 rounded-md bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xs font-semibold">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                    <span id="user-display-name" class="text-xs text-slate-400 font-medium">Account</span>
+                </div>
+                <button onclick="handleLogout()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-950 hover:bg-slate-900 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-all cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Log Out
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-6 py-12 space-y-12">
+        
+        <!-- Shortener Card Container -->
+        <section class="shortener-section opacity-0 translate-y-6">
+            <div class="bg-slate-900/30 border border-slate-800/80 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden max-w-3xl mx-auto">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+                
+                <h1 class="font-display font-bold text-2xl text-white mb-2 text-center sm:text-left">Shorten a Long Link</h1>
+                <p class="text-sm text-slate-400 mb-6 text-center sm:text-left font-light">Paste your destination URL below to generate a compact, fast-redirecting short URL.</p>
+                
+                <form id="shorten-form"
+                      hx-post="/shorten"
+                      hx-ext="json-enc"
+                      hx-swap="none"
+                      hx-on::after-request="handleShortenResponse(event)">
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-grow">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">
+                                <i class="fa-solid fa-link"></i>
+                            </span>
+                            <input type="url"
+                                   id="url-input"
+                                   name="url"
+                                   required
+                                   placeholder="https://example.com/very-long-page-address-here"
+                                   class="w-full pl-11 pr-4 py-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 text-white placeholder-slate-600 text-sm outline-none transition-all duration-200">
+                        </div>
+                        <button type="submit"
+                                class="py-4 px-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/15 border border-indigo-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer sm:min-w-[140px]">
+                            <span class="btn-text">Shorten Link</span>
+                            <span class="htmx-indicator"><i class="fa-solid fa-spinner animate-spin"></i> Working...</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- URLs Table Section -->
+        <section class="table-section opacity-0 translate-y-6">
+            <div class="bg-slate-900/20 border border-slate-800/60 rounded-3xl backdrop-blur-md shadow-xl overflow-hidden p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="font-display font-bold text-xl text-white">Your Shortened URLs</h2>
+                        <p class="text-xs text-slate-500 font-light mt-0.5">A list of all short links you have created.</p>
+                    </div>
+                    <button onclick="loadUrls()" class="px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                    </button>
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="hidden py-16 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600 mb-4">
+                        <i class="fa-solid fa-link-slash text-xl"></i>
+                    </div>
+                    <h3 class="font-display font-semibold text-base text-slate-300">No shortened URLs yet</h3>
+                    <p class="text-xs text-slate-500 mt-1 max-w-xs font-light">Paste a link in the form above and click shorten to create your first short URL.</p>
+                </div>
+
+                <!-- Table -->
+                <div id="urls-table" class="overflow-x-auto hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                <th class="px-6 py-4 font-semibold">Original Destination</th>
+                                <th class="px-6 py-4 font-semibold">Short Link</th>
+                                <th class="px-6 py-4 font-semibold">Created At</th>
+                                <th class="px-6 py-4 font-semibold text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="urls-tbody">
+                            <!-- Dynamic rows appended here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 p-6 text-center border-t border-slate-950 bg-slate-950/60">
+        <p class="text-xs text-slate-600 font-light">&copy; 2026 SnipLink. Fast routing via Redis Cache.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Global HTMX Event Listener to attach JWT authorization header to all HTMX requests
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                event.detail.headers['Authorization'] = `Bearer ${token}`;
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Animate dashboard components in on load
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            tl.to("body", { opacity: 1, duration: 0.3 })
+              .to(".shortener-section", { opacity: 1, y: 0, duration: 0.6 }, 0.1)
+              .to(".table-section", { opacity: 1, y: 0, duration: 0.6 }, 0.2);
+
+            // Gentle background blob movements
+            gsap.to(".blob-1", { x: "10vw", y: "8vh", duration: 15, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to(".blob-2", { x: "-10vw", y: "-8vh", duration: 18, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Initialize User visual details from JWT
+            decodeToken();
+
+            // Load initial table URLs
+            loadUrls();
+        });
+
+        // Decodes JWT token payload locally to display email/name in the header
+        function decodeToken() {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+
+                const payload = JSON.parse(jsonPayload);
+                if (payload && payload.sub) {
+                    document.getElementById('user-display-name').innerText = payload.sub;
+                }
+            } catch (e) {
+                console.error("JWT Decode error:", e);
+            }
+        }
+
+        // Toast Notification System
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-5 py-4 rounded-xl border backdrop-blur-md shadow-2xl flex items-center gap-3 pointer-events-auto translate-x-12 opacity-0 text-sm font-medium transition-all duration-300`;
+            
+            if (type === "success") {
+                toast.className += " bg-emerald-950/80 border-emerald-800 text-emerald-300";
+                toast.innerHTML = `<i class="fa-solid fa-circle-check text-base text-emerald-400"></i> <span>${message}</span>`;
+            } else {
+                toast.className += " bg-rose-950/80 border-rose-800 text-rose-300";
+                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-base text-rose-400"></i> <span>${message}</span>`;
+            }
+            
+            container.appendChild(toast);
+            
+            // GSAP In
+            gsap.to(toast, {
+                x: 0,
+                opacity: 1,
+                duration: 0.4,
+                ease: "power3.out"
+            });
+            
+            // GSAP Out
+            setTimeout(() => {
+                gsap.to(toast, {
+                    x: 50,
+                    opacity: 0,
+                    duration: 0.4,
+                    ease: "power3.in",
+                    onComplete: () => {
+                        toast.remove();
+                    }
+                });
+            }, 3000);
+        }
+
+        // Load short URLs from API
+        async function loadUrls() {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            
+            try {
+                const res = await fetch('/my/urls', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                
+                if (res.status === 401) {
+                    // Token expired or invalid
+                    handleLogout();
+                    return;
+                }
+                
+                const urls = await res.json();
+                renderTable(urls);
+            } catch (e) {
+                console.error("Error fetching URLs:", e);
+                showToast("Failed to load your URLs. Please try refreshing.", "error");
+            }
+        }
+
+        // Render URLs in the table with entry animations
+        function renderTable(urls) {
+            const tbody = document.getElementById('urls-tbody');
+            const emptyState = document.getElementById('empty-state');
+            const tableContainer = document.getElementById('urls-table');
+            
+            tbody.innerHTML = '';
+            
+            if (urls.length === 0) {
+                emptyState.classList.remove('hidden');
+                tableContainer.classList.add('hidden');
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            tableContainer.classList.remove('hidden');
+            
+            urls.forEach(url => {
+                const row = createRowElement(url);
+                tbody.appendChild(row);
+            });
+            
+            // Staggered entry animation for table rows
+            gsap.fromTo(tbody.children, 
+                { opacity: 0, y: 15 },
+                { opacity: 1, y: 0, duration: 0.4, stagger: 0.05, ease: "power2.out" }
+            );
+        }
+
+        // Helper to construct a single table row element
+        function createRowElement(url) {
+            const tr = document.createElement('tr');
+            tr.className = "border-b border-slate-800/40 hover:bg-slate-900/20 transition-colors";
+            
+            // Format Date
+            let dateStr = "Recently";
+            if (url.created_at) {
+                const date = new Date(url.created_at);
+                dateStr = date.toLocaleDateString(undefined, {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+            
+            tr.innerHTML = `
+                <td class="px-6 py-4 max-w-xs md:max-w-md truncate text-sm text-slate-300 font-light">
+                    <a href="${url.original_url}" target="_blank" class="hover:text-indigo-400 hover:underline transition-colors">${url.original_url}</a>
+                </td>
+                <td class="px-6 py-4 text-sm text-indigo-400 font-medium">
+                    <a href="${url.short_url}" target="_blank" class="hover:text-indigo-300 hover:underline transition-colors short-url-link">${url.short_url}</a>
+                </td>
+                <td class="px-6 py-4 text-xs text-slate-500 font-light">
+                    ${dateStr}
+                </td>
+                <td class="px-6 py-4 text-right">
+                    <button onclick="copyToClipboard('${url.short_url}', this)" class="px-3.5 py-1.5 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800/80 hover:border-slate-700 text-xs text-slate-400 hover:text-white transition-all flex items-center gap-1.5 ml-auto cursor-pointer">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                </td>
+            `;
+            return tr;
+        }
+
+        // Copy Short URL to Clipboard & update button UI
+        function copyToClipboard(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Short link copied to clipboard!", "success");
+                
+                // Temporarily update button style to indicate success
+                const icon = btn.querySelector('i');
+                icon.className = "fa-solid fa-check text-emerald-400";
+                btn.classList.add('border-emerald-800/40', 'bg-emerald-950/20');
+                
+                setTimeout(() => {
+                    icon.className = "fa-regular fa-copy";
+                    btn.classList.remove('border-emerald-800/40', 'bg-emerald-950/20');
+                }, 2000);
+            }).catch(err => {
+                console.error("Clipboard copy error:", err);
+                showToast("Failed to copy short URL.", "error");
+            });
+        }
+
+        // HTMX shorten URL response handler
+        function handleShortenResponse(event) {
+            const xhr = event.detail.xhr;
+            const status = xhr.status;
+            
+            if (status === 200) {
+                try {
+                    const url = JSON.parse(xhr.responseText);
+                    
+                    // 1. Clear form input
+                    document.getElementById('url-input').value = '';
+                    
+                    // 2. Insert new row at the top
+                    const tbody = document.getElementById('urls-tbody');
+                    const emptyState = document.getElementById('empty-state');
+                    const tableContainer = document.getElementById('urls-table');
+                    
+                    if (!emptyState.classList.contains('hidden')) {
+                        emptyState.classList.add('hidden');
+                        tableContainer.classList.remove('hidden');
+                    }
+                    
+                    const row = createRowElement(url);
+                    tbody.insertBefore(row, tbody.firstChild);
+                    
+                    // 3. GSAP bounce-in row animation
+                    gsap.fromTo(row,
+                        { opacity: 0, scaleY: 0, transformOrigin: "top" },
+                        { opacity: 1, scaleY: 1, duration: 0.4, ease: "back.out(1.2)" }
+                    );
+                    
+                    // 4. Trigger success toast
+                    showToast("URL shortened successfully!", "success");
+                } catch (e) {
+                    console.error(e);
+                    showToast("Error processing shortened URL.", "error");
+                }
+            } else {
+                let errorMsg = "Failed to shorten URL.";
+                try {
+                    const res = JSON.parse(xhr.responseText);
+                    if (res.detail) {
+                        errorMsg = typeof res.detail === 'string' ? res.detail : JSON.stringify(res.detail);
+                    }
+                } catch (e) {}
+                showToast(errorMsg, "error");
+            }
+        }
+
+        // Logout Flow
+        function handleLogout() {
+            // Animating body fadeout before redirect
+            gsap.to("body", {
+                opacity: 0,
+                duration: 0.3,
+                onComplete: () => {
+                    localStorage.removeItem('token');
+                    window.location.href = '/index.html';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

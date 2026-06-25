@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SnipLink - Premium URL Shortener</title>
+    <!-- Google Fonts: Inter and Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#030712',
+                            card: '#0f172a',
+                            border: '#1e293b',
+                            primary: '#6366f1',
+                            secondary: '#06b6d4',
+                            accent: '#a855f7',
+                            text: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            overflow-x: hidden;
+        }
+        .font-display {
+            font-family: 'Outfit', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="text-slate-200 relative min-h-screen flex flex-col justify-between">
+
+    <!-- Background Ambient Glows -->
+    <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-900/20 blur-[120px] pointer-events-none z-0 blob-1"></div>
+    <div class="absolute bottom-[10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-purple-900/15 blur-[120px] pointer-events-none z-0 blob-2"></div>
+    <div class="absolute top-[40%] left-[30%] w-[35vw] h-[35vw] rounded-full bg-cyan-950/20 blur-[100px] pointer-events-none z-0 blob-3"></div>
+
+    <!-- Navigation Header -->
+    <header class="relative z-10 border-b border-slate-900 bg-brand-bg/60 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
+                    <i class="fa-solid fa-link text-lg"></i>
+                </div>
+                <span class="font-display font-bold text-2xl bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnipLink</span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Features</a>
+                <a href="#how-it-works" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">How it Works</a>
+                <a href="#pricing" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Integrations</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="/login.html" class="px-5 py-2.5 text-sm font-semibold text-slate-300 hover:text-white transition-colors nav-btn">Sign In</a>
+                <a href="/register.html" class="px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-lg shadow-indigo-600/25 border border-indigo-500/30 transition-all duration-300 hover:shadow-indigo-500/30 hover:scale-[1.02] active:scale-[0.98] nav-cta">
+                    Get Started <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="relative z-10 flex-grow">
+        
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-6 pt-20 pb-28 text-center flex flex-col items-center">
+            <!-- Floating Badge -->
+            <div class="hero-badge opacity-0 translate-y-4 mb-6 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 flex items-center gap-2 text-xs font-semibold text-slate-400 hover:border-slate-700 transition-colors cursor-default">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>The Web's Fastest Redirection Service</span>
+            </div>
+
+            <h1 class="hero-title opacity-0 translate-y-8 font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.1] max-w-4xl text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-400">
+                Shorten Your Links. <br>
+                <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text">Maximize Your Reach.</span>
+            </h1>
+
+            <p class="hero-desc opacity-0 translate-y-8 mt-8 text-lg sm:text-xl text-slate-400 max-w-2xl font-light leading-relaxed">
+                Create premium, short URLs, track their delivery instant-by-instant with Redis speed, and safeguard your account details with secure AWS DynamoDB storage.
+            </p>
+
+            <div class="hero-actions opacity-0 translate-y-8 mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center">
+                <a href="/register.html" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold shadow-xl shadow-indigo-600/30 hover:from-indigo-500 hover:to-violet-500 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 text-base border border-indigo-500/20">
+                    Start Shortening Free <i class="fa-solid fa-bolt text-sm"></i>
+                </a>
+                <a href="#how-it-works" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold border border-slate-800 hover:border-slate-700 transition-all duration-300 flex items-center justify-center gap-2 text-base">
+                    Learn How it Works
+                </a>
+            </div>
+
+            <!-- Sleek Dashboard Preview mockup -->
+            <div class="hero-mockup opacity-0 translate-y-12 mt-20 w-full max-w-5xl rounded-3xl border border-slate-800 bg-slate-950/40 p-3 backdrop-blur-sm shadow-2xl shadow-indigo-950/10 relative group">
+                <div class="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 via-transparent to-cyan-500/10 rounded-3xl pointer-events-none"></div>
+                <div class="border border-slate-900 rounded-2xl bg-brand-card overflow-hidden">
+                    <!-- Browser Window Header -->
+                    <div class="bg-slate-950/90 border-b border-slate-900 px-6 py-4 flex items-center justify-between">
+                        <div class="flex gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                        </div>
+                        <div class="bg-slate-900 border border-slate-800 rounded-lg px-4 py-1 text-xs text-slate-500 font-mono w-1/2 text-center select-none truncate">
+                            https://sniplink.io/dashboard
+                        </div>
+                        <div class="w-12"></div>
+                    </div>
+                    <!-- Inside Mockup Screen -->
+                    <div class="p-8 text-left bg-slate-950">
+                        <div class="h-8 w-48 bg-slate-900 rounded-lg mb-6 animate-pulse"></div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            <div class="h-24 bg-slate-900/50 border border-slate-900 rounded-2xl p-4">
+                                <div class="h-4 w-24 bg-slate-800 rounded mb-3"></div>
+                                <div class="h-8 w-16 bg-indigo-500/20 rounded"></div>
+                            </div>
+                            <div class="h-24 bg-slate-900/50 border border-slate-900 rounded-2xl p-4">
+                                <div class="h-4 w-24 bg-slate-800 rounded mb-3"></div>
+                                <div class="h-8 w-16 bg-cyan-500/20 rounded"></div>
+                            </div>
+                            <div class="h-24 bg-slate-900/50 border border-slate-900 rounded-2xl p-4">
+                                <div class="h-4 w-24 bg-slate-800 rounded mb-3"></div>
+                                <div class="h-8 w-16 bg-purple-500/20 rounded"></div>
+                            </div>
+                        </div>
+                        <div class="h-32 bg-slate-900/40 border border-slate-900 rounded-2xl p-6">
+                            <div class="h-5 w-32 bg-slate-800 rounded mb-4"></div>
+                            <div class="flex gap-4">
+                                <div class="h-10 bg-slate-800 rounded-lg flex-grow"></div>
+                                <div class="h-10 w-28 bg-indigo-600 rounded-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-24 border-t border-slate-900 bg-slate-950/30 relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">
+                        High-Performance Engineering
+                    </h2>
+                    <p class="mt-4 text-slate-400 font-light text-lg">
+                        Built on top of a robust, modern stack to deliver lightning-fast redirections and secure user accounts.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Card 1 -->
+                    <div class="feature-card bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800/80 hover:border-indigo-500/30 rounded-3xl p-8 backdrop-blur-sm transition-all duration-500 group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-gauge-high text-xl"></i>
+                        </div>
+                        <h3 class="font-display font-semibold text-xl text-white mb-3">Sub-Millisecond Redirects</h3>
+                        <p class="text-slate-400 text-sm font-light leading-relaxed">
+                            Using our <strong>Cache-Aside pattern</strong> powered by high-speed Redis, URLs are fetched in microseconds, reducing latency and boosting user experience.
+                        </p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="feature-card bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800/80 hover:border-cyan-500/30 rounded-3xl p-8 backdrop-blur-sm transition-all duration-500 group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center text-cyan-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-shield-halved text-xl"></i>
+                        </div>
+                        <h3 class="font-display font-semibold text-xl text-white mb-3">Secure DynamoDB Identity</h3>
+                        <p class="text-slate-400 text-sm font-light leading-relaxed">
+                            Your credentials are fully hashed via bcrypt, then stored in enterprise-grade AWS DynamoDB tables, protecting them with robust security.
+                        </p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="feature-card bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800/80 hover:border-purple-500/30 rounded-3xl p-8 backdrop-blur-sm transition-all duration-500 group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-chart-line text-xl"></i>
+                        </div>
+                        <h3 class="font-display font-semibold text-xl text-white mb-3">Relational MySQL Integrity</h3>
+                        <p class="text-slate-400 text-sm font-light leading-relaxed">
+                            URL data is organized cleanly inside structured MySQL tables using SQLAlchemy, ensuring ACID safety and reliable database backups.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-24 border-t border-slate-900 relative">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">
+                        How it Works
+                    </h2>
+                    <p class="mt-4 text-slate-400 font-light text-lg">
+                        Simplify your links in just three straightforward, elegant steps.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+                    <!-- Step 1 -->
+                    <div class="step-item text-center flex flex-col items-center group">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-indigo-400 mb-6 text-xl font-bold font-display group-hover:border-indigo-500/50 transition-colors duration-300 relative">
+                            1
+                            <div class="absolute bottom-[-10px] w-4 h-1 bg-indigo-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+                        <h3 class="font-display font-semibold text-lg text-white mb-3">Create an Account</h3>
+                        <p class="text-slate-400 text-sm font-light leading-relaxed max-w-xs">
+                            Sign up in seconds. Your account is secured instantly via high-grade AWS DynamoDB encryption.
+                        </p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="step-item text-center flex flex-col items-center group">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 mb-6 text-xl font-bold font-display group-hover:border-cyan-500/50 transition-colors duration-300 relative">
+                            2
+                            <div class="absolute bottom-[-10px] w-4 h-1 bg-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+                        <h3 class="font-display font-semibold text-lg text-white mb-3">Shorten a Link</h3>
+                        <p class="text-slate-400 text-sm font-light leading-relaxed max-w-xs">
+                            Enter your destination URL. Our API generates a unique, compact 6-character code immediately.
+                        </p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="step-item text-center flex flex-col items-center group">
+                        <div class="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-purple-400 mb-6 text-xl font-bold font-display group-hover:border-purple-500/50 transition-colors duration-300 relative">
+                            3
+                            <div class="absolute bottom-[-10px] w-4 h-1 bg-purple-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </div>
+                        <h3 class="font-display font-semibold text-lg text-white mb-3">Share & Redirect</h3>
+                        <p class="text-slate-400 text-sm font-light leading-relaxed max-w-xs">
+                            Share the short link anywhere. Visitors get redirected immediately via Redis caching.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-slate-900 bg-slate-950/80 py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-link text-sm"></i>
+                </div>
+                <span class="font-display font-semibold text-lg text-white">SnipLink</span>
+            </div>
+            <p class="text-xs text-slate-500 font-light">
+                &copy; 2026 SnipLink. Made with premium tech: FastAPI, MySQL, Redis & DynamoDB.
+            </p>
+            <div class="flex gap-4">
+                <a href="#" class="text-slate-500 hover:text-slate-300 transition-colors"><i class="fa-brands fa-github text-lg"></i></a>
+                <a href="#" class="text-slate-500 hover:text-slate-300 transition-colors"><i class="fa-brands fa-twitter text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- GSAP Animations -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Floating background blob animations
+            gsap.to(".blob-1", {
+                x: "30vw",
+                y: "20vh",
+                duration: 20,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            gsap.to(".blob-2", {
+                x: "-20vw",
+                y: "-15vh",
+                duration: 25,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            gsap.to(".blob-3", {
+                x: "15vw",
+                y: "-25vh",
+                duration: 18,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+
+            // Hero animations on load
+            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            
+            tl.to(".hero-badge", { opacity: 1, y: 0, duration: 0.8 }, 0.2)
+              .to(".hero-title", { opacity: 1, y: 0, duration: 1.0 }, 0.4)
+              .to(".hero-desc", { opacity: 1, y: 0, duration: 1.0 }, 0.6)
+              .to(".hero-actions", { opacity: 1, y: 0, duration: 0.8 }, 0.8)
+              .to(".hero-mockup", { opacity: 1, y: 0, duration: 1.2 }, 1.0);
+              
+            // Hover scale animations for feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, { y: -8, scale: 1.01, borderColor: 'rgba(99, 102, 241, 0.4)', duration: 0.3 });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, { y: 0, scale: 1.0, borderColor: 'rgba(30, 41, 59, 0.8)', duration: 0.3 });
+                });
+            });
+
+            // Scroll trigger feel for step items
+            gsap.from(".step-item", {
+                scrollTrigger: {
+                    trigger: "#how-it-works",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 30,
+                stagger: 0.2,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>
