@@ -36,6 +36,9 @@ class Settings:
     DYNAMODB_TABLE: str = os.getenv("DYNAMODB_TABLE", "users")
     # For local DynamoDB testing (e.g. LocalStack or local DynamoDB)
     DYNAMODB_ENDPOINT_URL: str = os.getenv("DYNAMODB_ENDPOINT_URL", "")
+    
+    # Local Network IP (for local mobile device testing/scanning)
+    LOCAL_IP: str = os.getenv("LOCAL_IP", "")
 
     # JWT Config
     JWT_SECRET: str = os.getenv("JWT_SECRET", "super_secret_jwt_signing_key_change_me_in_production_12345")

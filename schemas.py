@@ -32,6 +32,8 @@ class TokenData(BaseModel):
 
 class URLCreate(BaseModel):
     url: HttpUrl = Field(..., description="The original long URL to shorten")
+    custom_alias: Optional[str] = Field(None, min_length=3, max_length=50, pattern=r"^[a-zA-Z0-9_-]+$", description="Optional custom short code alias")
+    expires_at: Optional[datetime] = Field(None, description="Optional expiration date and time")
 
 class URLResponse(BaseModel):
     id: int
@@ -40,6 +42,7 @@ class URLResponse(BaseModel):
     short_url: str
     created_by: str
     created_at: datetime
+    expires_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
