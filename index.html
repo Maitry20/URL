@@ -117,7 +117,29 @@
         }
     </style>
 </head>
-<body class="text-brand-text min-h-screen flex md:flex-row flex-col relative">
+<body class="text-brand-text min-h-screen flex md:flex-row flex-col relative overflow-hidden">
+
+    <!-- Animated Intro Splash Screen -->
+    <div id="intro-splash" class="fixed inset-0 bg-stone-950 z-50 flex flex-col items-center justify-center text-white">
+        <div class="flex flex-col items-center gap-4">
+            <!-- Logo Icon with a glow and scale animation -->
+            <div class="intro-logo-icon w-20 h-20 rounded-3xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-2xl shadow-indigo-500/30">
+                <i class="fa-solid fa-link text-3xl"></i>
+            </div>
+            <!-- Animated brand name -->
+            <h1 class="intro-title font-display font-black text-4xl sm:text-5xl tracking-wider opacity-0 scale-90 bg-gradient-to-r from-white via-indigo-200 to-pink-200 bg-clip-text text-transparent">
+                SnipLink
+            </h1>
+            <!-- Dynamic subtitle/tagline -->
+            <p class="intro-subtitle text-xs text-stone-400 font-light uppercase tracking-[0.3em] opacity-0 translate-y-2 mt-1">
+                Sub-Millisecond Redirection
+            </p>
+        </div>
+        <!-- Premium progress indicator bar -->
+        <div class="w-48 h-1 bg-stone-900 rounded-full mt-10 overflow-hidden relative border border-stone-800/50">
+            <div class="intro-progress-bar absolute top-0 left-0 h-full w-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full"></div>
+        </div>
+    </div>
 
     <!-- Background Ambient Glows -->
     <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-[var(--blob-1)] blur-[120px] pointer-events-none z-0 blob-1"></div>
@@ -396,13 +418,33 @@
             // Apply icon state on load
             setTheme(localStorage.getItem('theme') || 'light');
 
-            // Hero animations on load
-            const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+            // Intro & Hero animations timeline
+            const introTl = gsap.timeline({
+                onComplete: () => {
+                    const splash = document.getElementById('intro-splash');
+                    if (splash) splash.remove();
+                    document.body.classList.remove('overflow-hidden');
+                }
+            });
+
+            // 1. Splash Screen Intro (lasts ~3 seconds total)
+            introTl.fromTo(".intro-logo-icon", 
+                { scale: 0, rotation: -45 }, 
+                { scale: 1, rotation: 0, duration: 1.0, ease: "back.out(1.7)" }
+            )
+            .to(".intro-title", { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
+            .to(".intro-subtitle", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.4")
+            .to(".intro-progress-bar", { width: "100%", duration: 2.0, ease: "power1.inOut" }, "-=0.6")
             
-            tl.to(".hero-badge", { opacity: 1, y: 0, duration: 0.8 }, 0.2)
-              .to(".hero-title", { opacity: 1, y: 0, duration: 1.0 }, 0.4)
-              .to(".hero-desc", { opacity: 1, y: 0, duration: 1.0 }, 0.6)
-              .to(".hero-actions", { opacity: 1, y: 0, duration: 0.8 }, 0.8);
+            // 2. Outro transition
+            .to("#intro-splash", { opacity: 0, duration: 0.8, ease: "power2.inOut" })
+            
+            // 3. Main page elements fade in (staggered)
+            .fromTo("aside", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+            .fromTo(".hero-badge", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.4")
+            .fromTo(".hero-title", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.4")
+            .fromTo(".hero-desc", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+            .fromTo(".hero-actions", { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, "-=0.6");
               
             // Scroll trigger feel for step items
             gsap.to(".step-item", {
