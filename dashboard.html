@@ -20,15 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <!-- QRious CDN for QR code generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-    <!-- Apply theme immediately on load to prevent flashing -->
-    <script>
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        if (savedTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
+
     <!-- Tailwind Config -->
     <script>
         tailwind.config = {
@@ -55,25 +47,6 @@
     </script>
     <style>
         :root {
-            --bg: #fbfaf7;
-            --card: #ffffff;
-            --border: #f1ede4;
-            --primary: #818cf8;
-            --secondary: #fb7185;
-            --accent: #fda4af;
-            --text: #292524;
-            --text-muted: #78716c;
-            --input-bg: #f5f5f4;
-            --blob-1: rgba(129, 140, 248, 0.15);
-            --blob-2: rgba(251, 113, 133, 0.2);
-            --header-bg: rgba(255, 255, 255, 0.75);
-            --btn-secondary-bg: #ffffff;
-            --btn-secondary-hover: #fbfaf7;
-            --title-from: #1c1917;
-            --title-to: #57534e;
-        }
-
-        .dark {
             --bg: #030712;
             --card: #0f172a;
             --border: #1e293b;
@@ -85,6 +58,7 @@
             --input-bg: rgba(3, 7, 18, 0.6);
             --blob-1: rgba(99, 102, 241, 0.15);
             --blob-2: rgba(168, 85, 247, 0.1);
+            --header-bg: rgba(3, 7, 18, 0.6);
             --btn-secondary-bg: #0f172a;
             --btn-secondary-hover: #1e293b;
             --title-from: #ffffff;
@@ -195,13 +169,7 @@
 
         <!-- Sidebar Bottom Actions -->
         <div class="space-y-4">
-            <!-- Theme Toggle Row -->
-            <div class="flex items-center justify-between p-1.5 rounded-xl bg-[var(--input-bg)] border border-brand-border transition-colors duration-300">
-                <span class="text-xs font-medium text-[var(--text-muted)] pl-2.5">Theme</span>
-                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-brand-card hover:bg-[var(--btn-secondary-hover)] border border-brand-border text-brand-text shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer" title="Toggle Theme">
-                    <i class="fa-solid fa-moon theme-toggle-icon"></i>
-                </button>
-            </div>
+
 
             <!-- Log Out Button -->
             <button onclick="handleLogout()" class="w-full py-3 px-4 flex items-center justify-center gap-2 text-xs font-semibold rounded-xl bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-950/30 transition-all cursor-pointer">
@@ -369,26 +337,7 @@
             }
         });
 
-        function setTheme(theme) {
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
-                    icon.className = 'fa-solid fa-sun theme-toggle-icon';
-                });
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
-                    icon.className = 'fa-solid fa-moon theme-toggle-icon';
-                });
-            }
-            localStorage.setItem('theme', theme);
-        }
 
-        function toggleTheme() {
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            setTheme(newTheme);
-        }
 
         function toggleMobileSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -422,8 +371,7 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Apply icon state on load
-            setTheme(localStorage.getItem('theme') || 'light');
+
 
             // Animate dashboard components in on load
             const tl = gsap.timeline({ defaults: { ease: "power3.out" } });

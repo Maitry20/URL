@@ -15,15 +15,7 @@
     <!-- GSAP CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <!-- Apply theme immediately on load to prevent flashing -->
-    <script>
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        if (savedTheme === 'dark') {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-    </script>
+
     <!-- Tailwind Config -->
     <script>
         tailwind.config = {
@@ -50,28 +42,6 @@
     </script>
     <style>
         :root {
-            --bg: #fbfaf7;
-            --card: #ffffff;
-            --border: #f1ede4;
-            --primary: #818cf8;
-            --secondary: #fb7185;
-            --accent: #fda4af;
-            --text: #292524;
-            --text-muted: #78716c;
-            --input-bg: #f5f5f4;
-            --blob-1: rgba(129, 140, 248, 0.15);
-            --blob-2: rgba(251, 113, 133, 0.2);
-            --blob-3: rgba(110, 231, 183, 0.15);
-            --header-bg: rgba(255, 255, 255, 0.75);
-            --btn-secondary-bg: #ffffff;
-            --btn-secondary-hover: #fbfaf7;
-            --shadow-color: rgba(129, 140, 248, 0.1);
-            --mockup-bg: rgba(255, 255, 255, 0.4);
-            --title-from: #1c1917;
-            --title-to: #57534e;
-        }
-
-        .dark {
             --bg: #030712;
             --card: #0f172a;
             --border: #1e293b;
@@ -199,13 +169,7 @@
 
         <!-- Sidebar Bottom Actions -->
         <div class="space-y-4">
-            <!-- Theme Toggle Row -->
-            <div class="flex items-center justify-between p-1.5 rounded-xl bg-[var(--input-bg)] border border-brand-border transition-colors duration-300">
-                <span class="text-xs font-medium text-[var(--text-muted)] pl-2.5">Theme</span>
-                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-brand-card hover:bg-[var(--btn-secondary-hover)] border border-brand-border text-brand-text shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer" title="Toggle Theme">
-                    <i class="fa-solid fa-moon theme-toggle-icon"></i>
-                </button>
-            </div>
+
 
             <!-- Auth Actions -->
             <div class="grid grid-cols-2 gap-2">
@@ -371,26 +335,7 @@
 
     <!-- GSAP & Theme Script -->
     <script>
-        function setTheme(theme) {
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
-                    icon.className = 'fa-solid fa-sun theme-toggle-icon';
-                });
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.querySelectorAll('.theme-toggle-icon').forEach(icon => {
-                    icon.className = 'fa-solid fa-moon theme-toggle-icon';
-                });
-            }
-            localStorage.setItem('theme', theme);
-        }
 
-        function toggleTheme() {
-            const currentTheme = localStorage.getItem('theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            setTheme(newTheme);
-        }
 
         function toggleMobileSidebar() {
             const sidebar = document.getElementById('sidebar');
