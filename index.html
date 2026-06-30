@@ -117,191 +117,234 @@
         }
     </style>
 </head>
-<body class="text-brand-text relative min-h-screen flex flex-col justify-between">
+<body class="text-brand-text min-h-screen flex md:flex-row flex-col relative">
 
     <!-- Background Ambient Glows -->
     <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-[var(--blob-1)] blur-[120px] pointer-events-none z-0 blob-1"></div>
     <div class="absolute bottom-[10%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-[var(--blob-2)] blur-[120px] pointer-events-none z-0 blob-2"></div>
     <div class="absolute top-[40%] left-[30%] w-[35vw] h-[35vw] rounded-full bg-[var(--blob-3)] blur-[100px] pointer-events-none z-0 blob-3"></div>
 
-    <!-- Navigation Header -->
-    <header class="relative z-10 border-b border-brand-border bg-[var(--header-bg)] backdrop-blur-md transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2.5 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-400 via-purple-400 to-pink-400 flex items-center justify-center text-white shadow-md shadow-indigo-200/50 group-hover:scale-105 transition-transform duration-300">
-                    <i class="fa-solid fa-link text-lg"></i>
-                </div>
-                <span class="font-display font-bold text-2xl bg-gradient-to-r from-[var(--title-from)] to-[var(--title-to)] bg-clip-text text-transparent">SnipLink</span>
-            </a>
-            
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="#features" class="text-sm font-medium text-[var(--text-muted)] hover:text-brand-text transition-colors">Features</a>
-                <a href="#how-it-works" class="text-sm font-medium text-[var(--text-muted)] hover:text-brand-text transition-colors">How it Works</a>
-            </nav>
-
-            <div class="flex items-center gap-4">
-                <button onclick="toggleTheme()" class="p-2.5 rounded-xl bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] border border-brand-border text-brand-text shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer" title="Toggle Theme">
-                    <i class="fa-solid fa-moon theme-toggle-icon"></i>
-                </button>
-                <a href="/login.html" class="px-5 py-2.5 text-sm font-semibold text-[var(--text-muted)] hover:text-brand-text transition-colors nav-btn">Sign In</a>
-                <a href="/register.html" class="px-5 py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white shadow-lg shadow-indigo-100 border border-indigo-400/20 transition-all duration-300 hover:shadow-indigo-200/40 hover:scale-[1.02] active:scale-[0.98] nav-cta">
-                    Get Started <i class="fa-solid fa-arrow-right ml-1.5 text-xs"></i>
-                </a>
+    <!-- Mobile Header -->
+    <header class="md:hidden relative z-20 border-b border-brand-border bg-[var(--header-bg)] backdrop-blur-md px-6 py-4 flex items-center justify-between transition-colors duration-300">
+        <a href="/" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-md">
+                <i class="fa-solid fa-link text-sm"></i>
             </div>
-        </div>
+            <span class="font-display font-bold text-lg bg-gradient-to-r from-[var(--title-from)] to-[var(--title-to)] bg-clip-text text-transparent">SnipLink</span>
+        </a>
+        <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg bg-[var(--btn-secondary-bg)] border border-brand-border text-brand-text shadow-sm cursor-pointer">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="relative z-10 flex-grow">
-        
-        <!-- Hero Section -->
-        <section class="max-w-7xl mx-auto px-6 pt-20 pb-28 text-center flex flex-col items-center">
-            <!-- Floating Badge -->
-            <div class="hero-badge opacity-0 translate-y-4 mb-6 px-4 py-1.5 rounded-full bg-brand-card border border-brand-border flex items-center gap-2 text-xs font-semibold text-[var(--text-muted)] hover:border-brand-primary transition-colors cursor-default shadow-sm">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>The Web's Fastest Redirection Service ✨</span>
-            </div>
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-25 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"></div>
 
-            <h1 class="hero-title opacity-0 translate-y-8 font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.1] max-w-4xl text-transparent bg-clip-text bg-gradient-to-b from-[var(--title-from)] to-[var(--title-to)]">
-                Shorten Your Links. <br>
-                <span class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text">Maximize Your Reach.</span>
-            </h1>
-
-            <p class="hero-desc opacity-0 translate-y-8 mt-8 text-lg sm:text-xl text-[var(--text-muted)] max-w-2xl font-light leading-relaxed">
-                Create premium, short URLs, track their delivery instant-by-instant with Redis speed, and safeguard your account details with secure AWS DynamoDB storage.
-            </p>
-
-            <div class="hero-actions opacity-0 translate-y-8 mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center">
-                <a href="/register.html" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-semibold shadow-xl shadow-indigo-200/50 hover:from-indigo-400 hover:to-pink-400 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 text-base border border-indigo-400/20">
-                    Start Shortening Free <i class="fa-solid fa-bolt text-sm"></i>
+    <!-- Sidebar Navigation (Left) -->
+    <aside id="sidebar" class="fixed md:sticky top-0 left-0 h-screen w-64 bg-brand-card border-r border-brand-border flex flex-col justify-between p-6 z-30 transition-transform duration-300 -translate-x-full md:translate-x-0 shrink-0">
+        <div class="space-y-8">
+            <!-- Logo -->
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center gap-2.5 group">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-md shadow-indigo-200/30">
+                        <i class="fa-solid fa-link text-base"></i>
+                    </div>
+                    <span class="font-display font-bold text-xl bg-gradient-to-r from-[var(--title-from)] to-[var(--title-to)] bg-clip-text text-transparent">SnipLink</span>
                 </a>
-                <a href="#how-it-works" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] text-brand-text font-semibold border border-brand-border hover:border-brand-primary transition-all duration-300 flex items-center justify-center gap-2 text-base shadow-sm">
-                    Learn How it Works
+                <!-- Mobile close button -->
+                <button onclick="toggleMobileSidebar()" class="md:hidden text-[var(--text-muted)] hover:text-brand-text cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-1.5">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-primary/10 text-brand-primary font-medium text-sm transition-all">
+                    <i class="fa-solid fa-house text-sm"></i>
+                    <span>Home</span>
                 </a>
+                <a href="#features" onclick="closeMobileSidebarOnly()" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[var(--text-muted)] hover:text-brand-text hover:bg-[var(--btn-secondary-hover)] font-medium text-sm transition-all">
+                    <i class="fa-solid fa-star text-sm"></i>
+                    <span>Features</span>
+                </a>
+                <a href="#how-it-works" onclick="closeMobileSidebarOnly()" class="flex items-center gap-3 px-4 py-3 rounded-xl text-[var(--text-muted)] hover:text-brand-text hover:bg-[var(--btn-secondary-hover)] font-medium text-sm transition-all">
+                    <i class="fa-solid fa-circle-info text-sm"></i>
+                    <span>How it Works</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Sidebar Bottom Actions -->
+        <div class="space-y-4">
+            <!-- Theme Toggle Row -->
+            <div class="flex items-center justify-between p-1.5 rounded-xl bg-[var(--input-bg)] border border-brand-border transition-colors duration-300">
+                <span class="text-xs font-medium text-[var(--text-muted)] pl-2.5">Theme</span>
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-brand-card hover:bg-[var(--btn-secondary-hover)] border border-brand-border text-brand-text shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer" title="Toggle Theme">
+                    <i class="fa-solid fa-moon theme-toggle-icon"></i>
+                </button>
             </div>
 
-
-        </section>
-
-        <!-- Features Section -->
-        <section id="features" class="py-24 border-t border-brand-border bg-brand-card/40 relative transition-colors duration-300">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center max-w-3xl mx-auto mb-20">
-                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-brand-text">
-                        High-Performance Engineering
-                    </h2>
-                    <p class="mt-4 text-[var(--text-muted)] font-light text-lg">
-                        Built on top of a robust, modern stack to deliver lightning-fast redirections and secure user accounts.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Card 1 -->
-                    <div class="feature-card bg-brand-card/60 hover:bg-brand-card border border-brand-border hover:border-brand-primary rounded-3xl p-8 backdrop-blur-sm transition-all duration-500 group relative overflow-hidden shadow-sm">
-                        <div class="absolute inset-0 bg-gradient-to-b from-brand-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="w-12 h-12 rounded-2xl bg-[var(--blob-1)] flex items-center justify-center text-brand-primary mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-gauge-high text-xl"></i>
-                        </div>
-                        <h3 class="font-display font-semibold text-xl text-brand-text mb-3">Sub-Millisecond Redirects</h3>
-                        <p class="text-[var(--text-muted)] text-sm font-light leading-relaxed">
-                            Using our <strong>Cache-Aside pattern</strong> powered by high-speed Redis, URLs are fetched in microseconds, reducing latency and boosting user experience.
-                        </p>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="feature-card bg-brand-card/60 hover:bg-brand-card border border-brand-border hover:border-brand-secondary rounded-3xl p-8 backdrop-blur-sm transition-all duration-500 group relative overflow-hidden shadow-sm">
-                        <div class="absolute inset-0 bg-gradient-to-b from-brand-secondary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="w-12 h-12 rounded-2xl bg-[var(--blob-2)] flex items-center justify-center text-brand-secondary mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-shield-halved text-xl"></i>
-                        </div>
-                        <h3 class="font-display font-semibold text-xl text-brand-text mb-3">Secure DynamoDB Identity</h3>
-                        <p class="text-[var(--text-muted)] text-sm font-light leading-relaxed">
-                            Your credentials are fully hashed via bcrypt, then stored in enterprise-grade AWS DynamoDB tables, protecting them with robust security.
-                        </p>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="feature-card bg-brand-card/60 hover:bg-brand-card border border-brand-border hover:border-brand-primary rounded-3xl p-8 backdrop-blur-sm transition-all duration-500 group relative overflow-hidden shadow-sm">
-                        <div class="absolute inset-0 bg-gradient-to-b from-brand-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <div class="w-12 h-12 rounded-2xl bg-[var(--blob-3)] flex items-center justify-center text-brand-primary mb-6 group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-chart-line text-xl"></i>
-                        </div>
-                        <h3 class="font-display font-semibold text-xl text-brand-text mb-3">Relational MySQL Integrity</h3>
-                        <p class="text-[var(--text-muted)] text-sm font-light leading-relaxed">
-                            URL data is organized cleanly inside structured MySQL tables using SQLAlchemy, ensuring ACID safety and reliable database backups.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- How It Works Section -->
-        <section id="how-it-works" class="py-24 border-t border-brand-border relative transition-colors duration-300">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="text-center max-w-3xl mx-auto mb-20">
-                    <h2 class="font-display font-bold text-3xl sm:text-5xl text-brand-text">
-                        How it Works
-                    </h2>
-                    <p class="mt-4 text-[var(--text-muted)] font-light text-lg">
-                        Simplify your links in just three straightforward, elegant steps.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-                    <!-- Step 1 -->
-                    <div class="step-item text-center flex flex-col items-center group">
-                        <div class="w-16 h-16 rounded-2xl bg-brand-card border border-brand-border flex items-center justify-center text-brand-primary mb-6 text-xl font-bold font-display group-hover:border-brand-primary transition-colors duration-300 relative shadow-sm">
-                            1
-                            <div class="absolute bottom-[-10px] w-4 h-1 bg-brand-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        </div>
-                        <h3 class="font-display font-semibold text-lg text-brand-text mb-3">Create an Account</h3>
-                        <p class="text-[var(--text-muted)] text-sm font-light leading-relaxed max-w-xs">
-                            Sign up in seconds. Your account is secured instantly via high-grade AWS DynamoDB encryption.
-                        </p>
-                    </div>
-                    <!-- Step 2 -->
-                    <div class="step-item text-center flex flex-col items-center group">
-                        <div class="w-16 h-16 rounded-2xl bg-brand-card border border-brand-border flex items-center justify-center text-brand-secondary mb-6 text-xl font-bold font-display group-hover:border-brand-secondary transition-colors duration-300 relative shadow-sm">
-                            2
-                            <div class="absolute bottom-[-10px] w-4 h-1 bg-brand-secondary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        </div>
-                        <h3 class="font-display font-semibold text-lg text-brand-text mb-3">Shorten a Link</h3>
-                        <p class="text-[var(--text-muted)] text-sm font-light leading-relaxed max-w-xs">
-                            Enter your destination URL. Our API generates a unique, compact 6-character code immediately.
-                        </p>
-                    </div>
-                    <!-- Step 3 -->
-                    <div class="step-item text-center flex flex-col items-center group">
-                        <div class="w-16 h-16 rounded-2xl bg-brand-card border border-brand-border flex items-center justify-center text-brand-primary mb-6 text-xl font-bold font-display group-hover:border-brand-primary transition-colors duration-300 relative shadow-sm">
-                            3
-                            <div class="absolute bottom-[-10px] w-4 h-1 bg-brand-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        </div>
-                        <h3 class="font-display font-semibold text-lg text-brand-text mb-3">Share & Redirect</h3>
-                        <p class="text-[var(--text-muted)] text-sm font-light leading-relaxed max-w-xs">
-                            Share the short link anywhere. Visitors get redirected immediately via Redis caching.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="relative z-10 border-t border-brand-border bg-brand-card/85 py-12 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-sm">
-                    <i class="fa-solid fa-link text-sm"></i>
-                </div>
-                <span class="font-display font-semibold text-lg text-brand-text">SnipLink</span>
-            </div>
-            <p class="text-xs text-[var(--text-muted)] font-light">
-                &copy; 2026 SnipLink. Made with cute tech: FastAPI, MySQL, Redis & DynamoDB.
-            </p>
-            <div class="flex gap-4">
-                <a href="#" class="text-[var(--text-muted)] hover:text-brand-text transition-colors"><i class="fa-brands fa-github text-lg"></i></a>
-                <a href="#" class="text-[var(--text-muted)] hover:text-brand-text transition-colors"><i class="fa-brands fa-twitter text-lg"></i></a>
+            <!-- Auth Actions -->
+            <div class="grid grid-cols-2 gap-2">
+                <a href="/login.html" class="py-3 text-center text-xs font-semibold rounded-xl bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] text-[var(--text-muted)] hover:text-brand-text border border-brand-border transition-all">
+                    Sign In
+                </a>
+                <a href="/register.html" class="py-3 text-center text-xs font-semibold rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white shadow-md transition-all">
+                    Sign Up
+                </a>
             </div>
         </div>
-    </footer>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex-grow min-h-screen flex flex-col justify-between min-w-0">
+        <!-- Main Content Area -->
+        <main class="relative z-10 flex-grow">
+            <!-- Hero Section -->
+            <section class="max-w-7xl mx-auto px-6 pt-20 pb-28 text-center flex flex-col items-center">
+                <!-- Floating Badge -->
+                <div class="hero-badge opacity-0 translate-y-4 mb-6 px-4 py-1.5 rounded-full bg-brand-card border border-brand-border flex items-center gap-2 text-xs font-semibold text-[var(--text-muted)] hover:border-brand-primary transition-colors cursor-default shadow-sm">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span>The Web's Fastest Redirection Service ✨</span>
+                </div>
+
+                <h1 class="hero-title opacity-0 translate-y-8 font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.1] max-w-4xl text-transparent bg-clip-text bg-gradient-to-b from-[var(--title-from)] to-[var(--title-to)]">
+                    Shorten Your Links. <br>
+                    <span class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text">Maximize Your Reach.</span>
+                </h1>
+
+                <p class="hero-desc opacity-0 translate-y-8 mt-8 text-lg sm:text-xl text-[var(--text-muted)] max-w-2xl font-light leading-relaxed">
+                    Create premium, short URLs, track their delivery instant-by-instant with Redis speed, and safeguard your account details with secure AWS DynamoDB storage.
+                </p>
+
+                <div class="hero-actions opacity-0 translate-y-8 mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center">
+                    <a href="/register.html" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 text-white font-semibold shadow-xl shadow-indigo-200/50 hover:from-indigo-400 hover:to-pink-400 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 text-base border border-indigo-400/20">
+                        Start Shortening Free <i class="fa-solid fa-bolt text-sm"></i>
+                    </a>
+                    <a href="#how-it-works" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] text-brand-text font-semibold border border-brand-border hover:border-brand-primary transition-all duration-300 flex items-center justify-center gap-2 text-base shadow-sm">
+                        Learn How it Works
+                    </a>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="py-24 border-t border-brand-border bg-brand-card/40 relative transition-colors duration-300">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center max-w-3xl mx-auto mb-20">
+                        <h2 class="font-display font-bold text-3xl sm:text-5xl text-brand-text">
+                            High-Performance Engineering
+                        </h2>
+                        <p class="mt-4 text-[var(--text-muted)] font-light text-lg">
+                            We built SnipLink using modern cloud native technologies to guarantee sub-millisecond response times.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <!-- Card 1 -->
+                        <div class="feature-card bg-brand-card border border-brand-border rounded-3xl p-8 shadow-sm relative overflow-hidden transition-colors duration-300">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-indigo-500 flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-bolt text-xl"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-brand-text mb-3">Redis Caching</h3>
+                            <p class="text-[var(--text-muted)] font-light leading-relaxed text-sm">
+                                All active short links are cached directly in Redis. Redirection requests bypass DB queries completely, returning responses in under 10ms.
+                            </p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="feature-card bg-brand-card border border-brand-border rounded-3xl p-8 shadow-sm relative overflow-hidden transition-colors duration-300">
+                            <div class="w-12 h-12 rounded-2xl bg-pink-50 dark:bg-pink-950/40 text-pink-500 flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-shield-halved text-xl"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-brand-text mb-3">Secure DynamoDB</h3>
+                            <p class="text-[var(--text-muted)] font-light leading-relaxed text-sm">
+                                User authentication and link metadata are stored securely using AWS DynamoDB, providing high availability and enterprise-grade security.
+                            </p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="feature-card bg-brand-card border border-brand-border rounded-3xl p-8 shadow-sm relative overflow-hidden transition-colors duration-300">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 flex items-center justify-center mb-6">
+                                <i class="fa-solid fa-chart-line text-xl"></i>
+                            </div>
+                            <h3 class="font-display font-bold text-xl text-brand-text mb-3">Real-time Analytics</h3>
+                            <p class="text-[var(--text-muted)] font-light leading-relaxed text-sm">
+                                Monitor clicks, active links, and link expiration dynamically from your dashboard with clean visual indicators.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section id="how-it-works" class="py-24 border-t border-brand-border relative transition-colors duration-300">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center max-w-3xl mx-auto mb-20">
+                        <h2 class="font-display font-bold text-3xl sm:text-5xl text-brand-text">
+                            Three Simple Steps
+                        </h2>
+                        <p class="mt-4 text-[var(--text-muted)] font-light text-lg">
+                            Get started in seconds. No complex setups or configurations needed.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+                        <!-- Step 1 -->
+                        <div class="step-item opacity-0 translate-y-6 flex flex-col items-center text-center relative z-10">
+                            <div class="w-16 h-16 rounded-2xl bg-[var(--input-bg)] border border-brand-border flex items-center justify-center font-display font-bold text-xl text-brand-primary mb-6 transition-colors duration-300">
+                                1
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-brand-text mb-2">Create Account</h3>
+                            <p class="text-sm text-[var(--text-muted)] font-light leading-relaxed max-w-xs">
+                                Register for a free account to securely manage your links and view redirection history.
+                            </p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="step-item opacity-0 translate-y-6 flex flex-col items-center text-center relative z-10">
+                            <div class="w-16 h-16 rounded-2xl bg-[var(--input-bg)] border border-brand-border flex items-center justify-center font-display font-bold text-xl text-brand-secondary mb-6 transition-colors duration-300">
+                                2
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-brand-text mb-2">Shorten Link</h3>
+                            <p class="text-sm text-[var(--text-muted)] font-light leading-relaxed max-w-xs">
+                                Paste your long URL, optionally define a custom alias or expiration time, and generate.
+                            </p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="step-item opacity-0 translate-y-6 flex flex-col items-center text-center relative z-10">
+                            <div class="w-16 h-16 rounded-2xl bg-[var(--input-bg)] border border-brand-border flex items-center justify-center font-display font-bold text-xl text-emerald-500 mb-6 transition-colors duration-300">
+                                3
+                            </div>
+                            <h3 class="font-display font-bold text-lg text-brand-text mb-2">Share & Track</h3>
+                            <p class="text-sm text-[var(--text-muted)] font-light leading-relaxed max-w-xs">
+                                Share the short link anywhere. Visitors get redirected immediately via Redis caching.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="relative z-10 border-t border-brand-border bg-brand-card/85 py-12 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-sm">
+                        <i class="fa-solid fa-link text-sm"></i>
+                    </div>
+                    <span class="font-display font-semibold text-lg text-brand-text">SnipLink</span>
+                </div>
+                <p class="text-xs text-[var(--text-muted)] font-light">
+                    &copy; 2026 SnipLink. Made with cute tech: FastAPI, MySQL, Redis & DynamoDB.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-[var(--text-muted)] hover:text-brand-text transition-colors"><i class="fa-brands fa-github text-lg"></i></a>
+                    <a href="#" class="text-[var(--text-muted)] hover:text-brand-text transition-colors"><i class="fa-brands fa-twitter text-lg"></i></a>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <!-- GSAP & Theme Script -->
     <script>
@@ -326,35 +369,32 @@
             setTheme(newTheme);
         }
 
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('pointer-events-none', 'opacity-0');
+                backdrop.classList.add('opacity-100');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.remove('opacity-100');
+                backdrop.classList.add('pointer-events-none', 'opacity-0');
+            }
+        }
+
+        function closeMobileSidebarOnly() {
+            if (window.innerWidth < 768) {
+                toggleMobileSidebar();
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
+            // Register ScrollTrigger
+            gsap.registerPlugin(ScrollTrigger);
+
             // Apply icon state on load
             setTheme(localStorage.getItem('theme') || 'light');
-
-            // Floating background blob animations (gentler movement)
-            gsap.to(".blob-1", {
-                x: "15vw",
-                y: "10vh",
-                duration: 20,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut"
-            });
-            gsap.to(".blob-2", {
-                x: "-10vw",
-                y: "-10vh",
-                duration: 25,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut"
-            });
-            gsap.to(".blob-3", {
-                x: "10vw",
-                y: "-15vh",
-                duration: 18,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut"
-            });
 
             // Hero animations on load
             const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -364,24 +404,14 @@
               .to(".hero-desc", { opacity: 1, y: 0, duration: 1.0 }, 0.6)
               .to(".hero-actions", { opacity: 1, y: 0, duration: 0.8 }, 0.8);
               
-            // Hover scale animations for feature cards
-            document.querySelectorAll('.feature-card').forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    gsap.to(card, { y: -6, scale: 1.01, duration: 0.3 });
-                });
-                card.addEventListener('mouseleave', () => {
-                    gsap.to(card, { y: 0, scale: 1.0, duration: 0.3 });
-                });
-            });
-
             // Scroll trigger feel for step items
-            gsap.from(".step-item", {
+            gsap.to(".step-item", {
                 scrollTrigger: {
                     trigger: "#how-it-works",
-                    start: "top 80%",
+                    start: "top 70%",
                 },
-                opacity: 0,
-                y: 25,
+                opacity: 1,
+                y: 0,
                 stagger: 0.15,
                 duration: 0.8,
                 ease: "power2.out"
@@ -390,4 +420,3 @@
     </script>
 </body>
 </html>
-
