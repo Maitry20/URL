@@ -111,7 +111,7 @@
         }
     </style>
 </head>
-<body class="text-brand-text min-h-screen flex flex-col justify-between relative opacity-0">
+<body class="text-brand-text min-h-screen flex md:flex-row flex-col relative opacity-0">
 
     <!-- Auth check script (runs instantly before body renders to prevent layout flashes) -->
     <script>
@@ -130,178 +130,234 @@
     <!-- Toast Container (Top Right for Notifications) -->
     <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- Dashboard Header -->
-    <header class="relative z-10 border-b border-brand-border bg-[var(--header-bg)] backdrop-blur-md transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2.5 group">
-                <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-md shadow-indigo-200/30">
-                    <i class="fa-solid fa-link text-base"></i>
-                </div>
-                <span class="font-display font-bold text-xl bg-gradient-to-r from-[var(--title-from)] to-[var(--title-to)] bg-clip-text text-transparent">SnipLink</span>
-            </a>
-            
-            <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-card border border-brand-border transition-colors duration-300">
-                    <div class="w-6 h-6 rounded-md bg-[var(--blob-1)] text-brand-primary flex items-center justify-center text-xs font-semibold">
-                        <i class="fa-regular fa-user"></i>
-                    </div>
-                    <span id="user-display-name" class="text-xs text-[var(--text-muted)] font-medium">Account</span>
-                </div>
-                <button onclick="toggleTheme()" class="p-2.5 rounded-lg bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] border border-brand-border text-brand-text shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer" title="Toggle Theme">
-                    <i class="fa-solid fa-moon theme-toggle-icon"></i>
-                </button>
-                <button onclick="handleLogout()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] text-[var(--text-muted)] hover:text-brand-text border border-brand-border transition-all cursor-pointer">
-                    <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Log Out
-                </button>
+    <!-- Mobile Header -->
+    <header class="md:hidden relative z-20 border-b border-brand-border bg-[var(--header-bg)] backdrop-blur-md px-6 py-4 flex items-center justify-between transition-colors duration-300">
+        <a href="/" class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-md">
+                <i class="fa-solid fa-link text-sm"></i>
             </div>
-        </div>
+            <span class="font-display font-bold text-lg bg-gradient-to-r from-[var(--title-from)] to-[var(--title-to)] bg-clip-text text-transparent">SnipLink</span>
+        </a>
+        <button onclick="toggleMobileSidebar()" class="p-2 rounded-lg bg-[var(--btn-secondary-bg)] border border-brand-border text-brand-text shadow-sm cursor-pointer">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </header>
 
-    <!-- Main Content -->
-    <main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-6 py-12 space-y-12">
-        
-        <!-- Shortener Card Container -->
-        <section class="shortener-section opacity-0 translate-y-6">
-            <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden max-w-3xl mx-auto transition-colors duration-300">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400 to-pink-400"></div>
-                
-                <h1 class="font-display font-bold text-2xl text-brand-text mb-2 text-center sm:text-left">Shorten a Long Link</h1>
-                <p class="text-sm text-[var(--text-muted)] mb-6 text-center sm:text-left font-light">Paste your destination URL below to generate a compact, fast-redirecting short URL.</p>
-                
-                <form id="shorten-form"
-                      hx-post="/shorten"
-                      hx-ext="json-enc"
-                      hx-swap="none"
-                      hx-on::after-request="handleShortenResponse(event)">
-                    <div class="space-y-4">
-                        <!-- Long URL Input -->
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm">
-                                <i class="fa-solid fa-link"></i>
-                            </span>
-                            <input type="url"
-                                   id="url-input"
-                                   name="url"
-                                   required
-                                   placeholder="https://example.com/very-long-page-address-here"
-                                   class="w-full pl-11 pr-4 py-4 rounded-2xl bg-[var(--input-bg)] border border-brand-border focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/35 text-brand-text placeholder-[var(--text-muted)]/60 text-sm outline-none transition-all duration-200">
-                        </div>
-                        
-                        <!-- Advanced Options (Permanently Visible Grid) -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[var(--input-bg)]/50 border border-brand-border rounded-2xl p-4 transition-colors duration-300">
-                            <!-- Custom Alias -->
-                            <div class="flex flex-col gap-1.5">
-                                <label for="alias-input" class="text-xs font-semibold text-brand-text flex items-center gap-1">
-                                    <i class="fa-solid fa-at text-brand-primary text-[10px]"></i> Custom Alias (Optional)
-                                </label>
-                                <input type="text"
-                                       id="alias-input"
-                                       name="custom_alias"
-                                       placeholder="e.g., promo-2026"
-                                       pattern="^[a-zA-Z0-9_-]+$"
-                                       title="Only alphanumeric characters, dashes, and underscores allowed."
-                                       class="w-full px-4 py-2.5 rounded-xl bg-brand-card border border-brand-border focus:border-brand-primary text-brand-text placeholder-[var(--text-muted)]/60 text-xs outline-none transition-all transition-colors duration-300">
-                                <span class="text-[10px] text-[var(--text-muted)]">Alphanumeric, dashes, underscores only. Min 3 chars.</span>
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-stone-900/40 backdrop-blur-sm z-25 opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"></div>
+
+    <!-- Sidebar Navigation (Left) -->
+    <aside id="sidebar" class="fixed md:sticky top-0 left-0 h-screen w-64 bg-brand-card border-r border-brand-border flex flex-col justify-between p-6 z-30 transition-transform duration-300 -translate-x-full md:translate-x-0 shrink-0">
+        <div class="space-y-8">
+            <!-- Logo -->
+            <div class="flex items-center justify-between">
+                <a href="/" class="flex items-center gap-2.5 group">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-md shadow-indigo-200/30">
+                        <i class="fa-solid fa-link text-base"></i>
+                    </div>
+                    <span class="font-display font-bold text-xl bg-gradient-to-r from-[var(--title-from)] to-[var(--title-to)] bg-clip-text text-transparent">SnipLink</span>
+                </a>
+                <!-- Mobile close button -->
+                <button onclick="toggleMobileSidebar()" class="md:hidden text-[var(--text-muted)] hover:text-brand-text cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- User Profile Card -->
+            <div class="flex items-center gap-3 p-3 rounded-2xl bg-[var(--input-bg)] border border-brand-border transition-colors duration-300">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-100 to-pink-100 dark:from-indigo-950 dark:to-pink-950 text-brand-primary flex items-center justify-center font-bold text-sm">
+                    <i class="fa-regular fa-user text-base"></i>
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span id="user-display-name" class="text-xs font-semibold text-brand-text truncate">Account</span>
+                    <span class="text-[10px] text-emerald-500 font-medium flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Active Now
+                    </span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-1.5">
+                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brand-primary/10 text-brand-primary font-medium text-sm transition-all">
+                    <i class="fa-solid fa-house text-sm"></i>
+                    <span>Overview</span>
+                </a>
+                <button onclick="scrollToShorten()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[var(--text-muted)] hover:text-brand-text hover:bg-[var(--btn-secondary-hover)] font-medium text-sm transition-all text-left cursor-pointer">
+                    <i class="fa-solid fa-bolt text-sm"></i>
+                    <span>Quick Shorten</span>
+                </button>
+                <button onclick="scrollToTable()" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[var(--text-muted)] hover:text-brand-text hover:bg-[var(--btn-secondary-hover)] font-medium text-sm transition-all text-left cursor-pointer">
+                    <i class="fa-solid fa-list-ul text-sm"></i>
+                    <span>My Links</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Sidebar Bottom Actions -->
+        <div class="space-y-4">
+            <!-- Theme Toggle Row -->
+            <div class="flex items-center justify-between p-1.5 rounded-xl bg-[var(--input-bg)] border border-brand-border transition-colors duration-300">
+                <span class="text-xs font-medium text-[var(--text-muted)] pl-2.5">Theme</span>
+                <button onclick="toggleTheme()" class="p-2 rounded-lg bg-brand-card hover:bg-[var(--btn-secondary-hover)] border border-brand-border text-brand-text shadow-sm transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer" title="Toggle Theme">
+                    <i class="fa-solid fa-moon theme-toggle-icon"></i>
+                </button>
+            </div>
+
+            <!-- Log Out Button -->
+            <button onclick="handleLogout()" class="w-full py-3 px-4 flex items-center justify-center gap-2 text-xs font-semibold rounded-xl bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-950/30 transition-all cursor-pointer">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="flex-grow min-h-screen flex flex-col justify-between min-w-0">
+        <!-- Main Content -->
+        <main class="relative z-10 flex-grow max-w-7xl w-full mx-auto px-6 py-12 space-y-12">
+            
+            <!-- Shortener Card Container -->
+            <section class="shortener-section opacity-0 translate-y-6">
+                <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden max-w-3xl mx-auto transition-colors duration-300">
+                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400 to-pink-400"></div>
+                    
+                    <h1 class="font-display font-bold text-2xl text-brand-text mb-2 text-center sm:text-left">Shorten a Long Link</h1>
+                    <p class="text-sm text-[var(--text-muted)] mb-6 text-center sm:text-left font-light">Paste your destination URL below to generate a compact, fast-redirecting short URL.</p>
+                    
+                    <form id="shorten-form"
+                          hx-post="/shorten"
+                          hx-ext="json-enc"
+                          hx-swap="none"
+                          hx-on::after-request="handleShortenResponse(event)">
+                        <div class="space-y-4">
+                            <!-- Long URL Input -->
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm">
+                                    <i class="fa-solid fa-link"></i>
+                                </span>
+                                <input type="url"
+                                       id="url-input"
+                                       name="url"
+                                       required
+                                       placeholder="https://example.com/very-long-page-address-here"
+                                       class="w-full pl-11 pr-4 py-4 rounded-2xl bg-[var(--input-bg)] border border-brand-border focus:border-brand-primary focus:ring-1 focus:ring-brand-primary/35 text-brand-text placeholder-[var(--text-muted)]/60 text-sm outline-none transition-all duration-200">
                             </div>
                             
-                            <!-- Expiration Time -->
-                            <div class="flex flex-col gap-1.5">
-                                <label for="expiry-input" class="text-xs font-semibold text-brand-text flex items-center gap-1">
-                                    <i class="fa-regular fa-clock text-brand-secondary text-[10px]"></i> Expiration Date & Time (Optional)
-                                </label>
-                                <input type="datetime-local"
-                                       id="expiry-input"
-                                       name="expires_at"
-                                       class="w-full px-4 py-2.5 rounded-xl bg-brand-card border border-brand-border focus:border-brand-primary text-brand-text placeholder-[var(--text-muted)]/60 text-xs outline-none transition-all transition-colors duration-300">
-                                <span class="text-[10px] text-[var(--text-muted)]">Leave blank for no expiration (permanent link).</span>
+                            <!-- Advanced Options (Permanently Visible Grid) -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[var(--input-bg)]/50 border border-brand-border rounded-2xl p-4 transition-colors duration-300">
+                                <!-- Custom Alias -->
+                                <div class="flex flex-col gap-1.5">
+                                    <label for="alias-input" class="text-xs font-semibold text-brand-text flex items-center gap-1">
+                                        <i class="fa-solid fa-at text-brand-primary text-[10px]"></i> Custom Alias (Optional)
+                                    </label>
+                                    <input type="text"
+                                           id="alias-input"
+                                           name="custom_alias"
+                                           placeholder="e.g., promo-2026"
+                                           pattern="^[a-zA-Z0-9_-]+$"
+                                           title="Only alphanumeric characters, dashes, and underscores allowed."
+                                           class="w-full px-4 py-2.5 rounded-xl bg-brand-card border border-brand-border focus:border-brand-primary text-brand-text placeholder-[var(--text-muted)]/60 text-xs outline-none transition-all transition-colors duration-300">
+                                    <span class="text-[10px] text-[var(--text-muted)]">Alphanumeric, dashes, underscores only. Min 3 chars.</span>
+                                </div>
+                                
+                                <!-- Expiration Time -->
+                                <div class="flex flex-col gap-1.5">
+                                    <label for="expiry-input" class="text-xs font-semibold text-brand-text flex items-center gap-1">
+                                        <i class="fa-regular fa-clock text-brand-secondary text-[10px]"></i> Expiration Date & Time (Optional)
+                                    </label>
+                                    <input type="datetime-local"
+                                           id="expiry-input"
+                                           name="expires_at"
+                                           class="w-full px-4 py-2.5 rounded-xl bg-brand-card border border-brand-border focus:border-brand-primary text-brand-text placeholder-[var(--text-muted)]/60 text-xs outline-none transition-all transition-colors duration-300">
+                                    <span class="text-[10px] text-[var(--text-muted)]">Leave blank for no expiration (permanent link).</span>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                        class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-sm shadow-md shadow-indigo-100 border border-indigo-400/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer sm:min-w-[150px]">
+                                    <span class="btn-text">Shorten Link</span>
+                                    <span class="htmx-indicator"><i class="fa-solid fa-spinner animate-spin"></i> Working...</span>
+                                </button>
                             </div>
                         </div>
+                    </form>
+                </div>
+            </section>
 
-                        <!-- Submit Button -->
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                    class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-sm shadow-md shadow-indigo-100 border border-indigo-400/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer sm:min-w-[150px]">
-                                <span class="btn-text">Shorten Link</span>
-                                <span class="htmx-indicator"><i class="fa-solid fa-spinner animate-spin"></i> Working...</span>
-                            </button>
+            <!-- URLs Table Section -->
+            <section class="table-section opacity-0 translate-y-6">
+                <div class="bg-brand-card border border-brand-border rounded-3xl shadow-xl overflow-hidden p-6 sm:p-8 transition-colors duration-300">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+                        <div>
+                            <h2 class="font-display font-bold text-xl text-brand-text">Your Shortened URLs</h2>
+                            <p class="text-xs text-[var(--text-muted)] font-light mt-0.5">A list of all short links you have created.</p>
                         </div>
+                        <button onclick="loadUrls()" class="px-3.5 py-2 text-xs font-semibold rounded-lg bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] text-[var(--text-muted)] hover:text-brand-text border border-brand-border transition-all flex items-center gap-1.5 cursor-pointer">
+                            <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                        </button>
                     </div>
-                </form>
-            </div>
-        </section>
 
-        <!-- URLs Table Section -->
-        <section class="table-section opacity-0 translate-y-6">
-            <div class="bg-brand-card border border-brand-border rounded-3xl shadow-xl overflow-hidden p-6 sm:p-8 transition-colors duration-300">
-                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-                    <div>
-                        <h2 class="font-display font-bold text-xl text-brand-text">Your Shortened URLs</h2>
-                        <p class="text-xs text-[var(--text-muted)] font-light mt-0.5">A list of all short links you have created.</p>
+                    <!-- Empty State -->
+                    <div id="empty-state" class="hidden py-16 text-center flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-[var(--input-bg)] border border-brand-border flex items-center justify-center text-[var(--text-muted)] mb-4">
+                            <i class="fa-solid fa-link-slash text-xl"></i>
+                        </div>
+                        <h3 class="font-display font-semibold text-base text-brand-text">No shortened URLs yet</h3>
+                        <p class="text-xs text-[var(--text-muted)] mt-1 max-w-xs font-light">Paste a link in the form above and click shorten to create your first short URL.</p>
                     </div>
-                    <button onclick="loadUrls()" class="px-3.5 py-2 text-xs font-semibold rounded-lg bg-[var(--btn-secondary-bg)] hover:bg-[var(--btn-secondary-hover)] text-[var(--text-muted)] hover:text-brand-text border border-brand-border transition-all flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-arrows-rotate"></i> Refresh
-                    </button>
-                </div>
 
-                <!-- Empty State -->
-                <div id="empty-state" class="hidden py-16 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-[var(--input-bg)] border border-brand-border flex items-center justify-center text-[var(--text-muted)] mb-4">
-                        <i class="fa-solid fa-link-slash text-xl"></i>
+                    <!-- Table -->
+                    <div id="urls-table" class="overflow-x-auto hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-brand-border text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider">
+                                    <th class="px-6 py-4 font-semibold">Original Destination</th>
+                                    <th class="px-6 py-4 font-semibold">Short Link</th>
+                                    <th class="px-6 py-4 font-semibold">Created At</th>
+                                    <th class="px-6 py-4 font-semibold">Expires At</th>
+                                    <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="urls-tbody">
+                                <!-- Dynamic rows appended here -->
+                            </tbody>
+                        </table>
                     </div>
-                    <h3 class="font-display font-semibold text-base text-brand-text">No shortened URLs yet</h3>
-                    <p class="text-xs text-[var(--text-muted)] mt-1 max-w-xs font-light">Paste a link in the form above and click shorten to create your first short URL.</p>
                 </div>
+            </section>
+        </main>
 
-                <!-- Table -->
-                <div id="urls-table" class="overflow-x-auto hidden">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-brand-border text-xs font-semibold text-[var(--text-muted)] uppercase tracking-wider">
-                                <th class="px-6 py-4 font-semibold">Original Destination</th>
-                                <th class="px-6 py-4 font-semibold">Short Link</th>
-                                <th class="px-6 py-4 font-semibold">Created At</th>
-                                <th class="px-6 py-4 font-semibold">Expires At</th>
-                                <th class="px-6 py-4 font-semibold text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="urls-tbody">
-                            <!-- Dynamic rows appended here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- QR Code Modal (Hidden by default) -->
-    <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center relative shadow-2xl scale-95 transition-all duration-300" id="qr-modal-card">
-            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-[var(--text-muted)] hover:text-brand-text transition-colors cursor-pointer text-sm">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <h3 class="font-display font-bold text-lg text-brand-text mb-1">Scan or Share Link</h3>
-            <p class="text-xs text-[var(--text-muted)] mb-6 font-light">Below is the generated QR code for your shortened URL.</p>
-            
-            <!-- QR Code Canvas Container -->
-            <div class="bg-stone-50 p-4 border border-stone-100 rounded-2xl inline-block shadow-inner mb-6 relative">
-                <canvas id="qr-canvas" class="mx-auto"></canvas>
-            </div>
-            
-            <div class="flex flex-col gap-2">
-                <button onclick="downloadQRCode()" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer">
-                    <i class="fa-solid fa-download"></i> Download QR Code
+        <!-- QR Code Modal (Hidden by default) -->
+        <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+            <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center relative shadow-2xl scale-95 transition-all duration-300" id="qr-modal-card">
+                <button onclick="closeQRModal()" class="absolute top-4 right-4 text-[var(--text-muted)] hover:text-brand-text transition-colors cursor-pointer text-sm">
+                    <i class="fa-solid fa-xmark"></i>
                 </button>
-                <div class="text-[var(--text-muted)] text-[10px] mt-1 break-all select-all font-mono py-1.5 px-2.5 rounded bg-[var(--input-bg)] border border-brand-border text-center" id="qr-modal-link">
-                    https://localhost:8000/xyz
+                <h3 class="font-display font-bold text-lg text-brand-text mb-1">Scan or Share Link</h3>
+                <p class="text-xs text-[var(--text-muted)] mb-6 font-light">Below is the generated QR code for your shortened URL.</p>
+                
+                <!-- QR Code Canvas Container -->
+                <div class="bg-stone-50 p-4 border border-stone-100 rounded-2xl inline-block shadow-inner mb-6 relative">
+                    <canvas id="qr-canvas" class="mx-auto"></canvas>
+                </div>
+                
+                <div class="flex flex-col gap-2">
+                    <button onclick="downloadQRCode()" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-download"></i> Download QR Code
+                    </button>
+                    <div class="text-[var(--text-muted)] text-[10px] mt-1 break-all select-all font-mono py-1.5 px-2.5 rounded bg-[var(--input-bg)] border border-brand-border text-center" id="qr-modal-link">
+                        https://localhost:8000/xyz
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Footer -->
-    <footer class="relative z-10 p-6 text-center border-t border-brand-border bg-brand-card/60 transition-colors duration-300">
-        <p class="text-xs text-[var(--text-muted)] font-light">&copy; 2026 SnipLink. Fast routing via Redis Cache. ⚡</p>
-    </footer>
+        <!-- Footer -->
+        <footer class="relative z-10 p-6 text-center border-t border-brand-border bg-brand-card/60 transition-colors duration-300">
+            <p class="text-xs text-[var(--text-muted)] font-light">&copy; 2026 SnipLink. Fast routing via Redis Cache. ⚡</p>
+        </footer>
+    </div>
 
     <!-- Scripts -->
     <script>
@@ -334,6 +390,37 @@
             setTheme(newTheme);
         }
 
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                backdrop.classList.remove('pointer-events-none', 'opacity-0');
+                backdrop.classList.add('opacity-100');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                backdrop.classList.remove('opacity-100');
+                backdrop.classList.add('pointer-events-none', 'opacity-0');
+            }
+        }
+
+        function scrollToShorten() {
+            document.querySelector('.shortener-section').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                document.getElementById('url-input').focus();
+            }, 500);
+            if (window.innerWidth < 768) {
+                toggleMobileSidebar();
+            }
+        }
+
+        function scrollToTable() {
+            document.querySelector('.table-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (window.innerWidth < 768) {
+                toggleMobileSidebar();
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             // Apply icon state on load
             setTheme(localStorage.getItem('theme') || 'light');
@@ -362,6 +449,7 @@
             // Load initial table URLs
             loadUrls();
         });
+
 
         // Decodes JWT token payload locally to display email/name in the header
         function decodeToken() {
