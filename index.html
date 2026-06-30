@@ -101,10 +101,7 @@
             <h1 class="intro-title font-display font-black text-4xl sm:text-5xl tracking-wider opacity-0 scale-90 bg-gradient-to-r from-white via-indigo-200 to-pink-200 bg-clip-text text-transparent">
                 SnipLink
             </h1>
-            <!-- Dynamic subtitle/tagline -->
-            <p class="intro-subtitle text-xs text-stone-400 font-light uppercase tracking-[0.3em] opacity-0 translate-y-2 mt-1">
-                Sub-Millisecond Redirection
-            </p>
+
         </div>
         <!-- Premium progress indicator bar -->
         <div class="w-48 h-1 bg-stone-900 rounded-full mt-10 overflow-hidden relative border border-stone-800/50">
@@ -378,8 +375,7 @@
                 { scale: 1, rotation: 0, duration: 1.0, ease: "back.out(1.7)" }
             )
             .to(".intro-title", { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, "-=0.5")
-            .to(".intro-subtitle", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.4")
-            .to(".intro-progress-bar", { width: "100%", duration: 2.0, ease: "power1.inOut" }, "-=0.6")
+            .to(".intro-progress-bar", { width: "100%", duration: 2.0, ease: "power1.inOut" }, "-=0.4")
             
             // 2. Outro transition
             .to("#intro-splash", { opacity: 0, duration: 0.8, ease: "power2.inOut" })
