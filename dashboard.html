@@ -27,13 +27,13 @@
                 extend: {
                     colors: {
                         brand: {
-                            bg: '#030712',
-                            card: '#0f172a',
-                            border: '#1e293b',
-                            primary: '#6366f1',
-                            secondary: '#06b6d4',
-                            accent: '#a855f7',
-                            text: '#f8fafc'
+                            bg: '#fbfaf7',
+                            card: '#ffffff',
+                            border: '#f1ede4',
+                            primary: '#818cf8',
+                            secondary: '#fb7185',
+                            accent: '#fda4af',
+                            text: '#292524'
                         }
                     },
                     fontFamily: {
@@ -47,7 +47,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #030712;
+            background-color: #fbfaf7;
             overflow-x: hidden;
         }
         .font-display {
@@ -64,7 +64,7 @@
         }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col justify-between relative opacity-0">
+<body class="text-stone-800 min-h-screen flex flex-col justify-between relative opacity-0">
 
     <!-- Auth check script (runs instantly before body renders to prevent layout flashes) -->
     <script>
@@ -77,30 +77,30 @@
     </script>
 
     <!-- Background Ambient Glows -->
-    <div class="absolute top-[-20%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-indigo-950/10 blur-[130px] pointer-events-none z-0 blob-1"></div>
-    <div class="absolute bottom-[-20%] right-[-20%] w-[55vw] h-[55vw] rounded-full bg-purple-950/10 blur-[130px] pointer-events-none z-0 blob-2"></div>
+    <div class="absolute top-[-20%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-indigo-200/20 blur-[130px] pointer-events-none z-0 blob-1"></div>
+    <div class="absolute bottom-[-20%] right-[-20%] w-[55vw] h-[55vw] rounded-full bg-pink-200/25 blur-[130px] pointer-events-none z-0 blob-2"></div>
 
     <!-- Toast Container (Top Right for Notifications) -->
     <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- Dashboard Header -->
-    <header class="relative z-10 border-b border-slate-900 bg-brand-bg/60 backdrop-blur-md">
+    <header class="relative z-10 border-b border-stone-100 bg-white/75 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <a href="/" class="flex items-center gap-2.5 group">
-                <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/10">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-md shadow-indigo-200/30">
                     <i class="fa-solid fa-link text-base"></i>
                 </div>
-                <span class="font-display font-bold text-xl bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnipLink</span>
+                <span class="font-display font-bold text-xl bg-gradient-to-r from-stone-800 to-stone-600 bg-clip-text text-transparent">SnipLink</span>
             </a>
             
             <div class="flex items-center gap-4">
-                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/60 border border-slate-800/80">
-                    <div class="w-6 h-6 rounded-md bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-xs font-semibold">
+                <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-stone-50 border border-stone-200/60">
+                    <div class="w-6 h-6 rounded-md bg-indigo-50 text-indigo-500 flex items-center justify-center text-xs font-semibold">
                         <i class="fa-regular fa-user"></i>
                     </div>
-                    <span id="user-display-name" class="text-xs text-slate-400 font-medium">Account</span>
+                    <span id="user-display-name" class="text-xs text-stone-600 font-medium">Account</span>
                 </div>
-                <button onclick="handleLogout()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-950 hover:bg-slate-900 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-all cursor-pointer">
+                <button onclick="handleLogout()" class="px-4 py-2 text-xs font-semibold rounded-lg bg-white hover:bg-stone-55 text-stone-500 hover:text-stone-900 border border-stone-200/60 hover:border-stone-300 transition-all cursor-pointer">
                     <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Log Out
                 </button>
             </div>
@@ -112,11 +112,11 @@
         
         <!-- Shortener Card Container -->
         <section class="shortener-section opacity-0 translate-y-6">
-            <div class="bg-slate-900/30 border border-slate-800/80 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl relative overflow-hidden max-w-3xl mx-auto">
-                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+            <div class="bg-white border border-stone-200/85 rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden max-w-3xl mx-auto">
+                <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-400 to-pink-400"></div>
                 
-                <h1 class="font-display font-bold text-2xl text-white mb-2 text-center sm:text-left">Shorten a Long Link</h1>
-                <p class="text-sm text-slate-400 mb-6 text-center sm:text-left font-light">Paste your destination URL below to generate a compact, fast-redirecting short URL.</p>
+                <h1 class="font-display font-bold text-2xl text-stone-850 mb-2 text-center sm:text-left">Shorten a Long Link</h1>
+                <p class="text-sm text-stone-500 mb-6 text-center sm:text-left font-light">Paste your destination URL below to generate a compact, fast-redirecting short URL.</p>
                 
                 <form id="shorten-form"
                       hx-post="/shorten"
@@ -126,7 +126,7 @@
                     <div class="space-y-4">
                         <!-- Long URL Input -->
                         <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 text-sm">
                                 <i class="fa-solid fa-link"></i>
                             </span>
                             <input type="url"
@@ -134,14 +134,14 @@
                                    name="url"
                                    required
                                    placeholder="https://example.com/very-long-page-address-here"
-                                   class="w-full pl-11 pr-4 py-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 text-white placeholder-slate-600 text-sm outline-none transition-all duration-200">
+                                   class="w-full pl-11 pr-4 py-4 rounded-2xl bg-stone-50 border border-stone-200/80 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-200 text-stone-800 placeholder-stone-400 text-sm outline-none transition-all duration-200">
                         </div>
                         
                         <!-- Advanced Options (Permanently Visible Grid) -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-950/30 border border-slate-800/60 rounded-2xl p-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-stone-50/50 border border-stone-150 rounded-2xl p-4">
                             <!-- Custom Alias -->
                             <div class="flex flex-col gap-1.5">
-                                <label for="alias-input" class="text-xs font-semibold text-slate-400 flex items-center gap-1">
+                                <label for="alias-input" class="text-xs font-semibold text-stone-500 flex items-center gap-1">
                                     <i class="fa-solid fa-at text-indigo-400 text-[10px]"></i> Custom Alias (Optional)
                                 </label>
                                 <input type="text"
@@ -150,27 +150,27 @@
                                        placeholder="e.g., promo-2026"
                                        pattern="^[a-zA-Z0-9_-]+$"
                                        title="Only alphanumeric characters, dashes, and underscores allowed."
-                                       class="w-full px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 focus:border-indigo-500/50 text-white placeholder-slate-700 text-xs outline-none transition-all">
-                                <span class="text-[10px] text-slate-600">Alphanumeric, dashes, underscores only. Min 3 chars.</span>
+                                       class="w-full px-4 py-2.5 rounded-xl bg-white border border-stone-200/85 focus:border-indigo-400 text-stone-800 placeholder-stone-400 text-xs outline-none transition-all">
+                                <span class="text-[10px] text-stone-400">Alphanumeric, dashes, underscores only. Min 3 chars.</span>
                             </div>
                             
                             <!-- Expiration Time -->
                             <div class="flex flex-col gap-1.5">
-                                <label for="expiry-input" class="text-xs font-semibold text-slate-400 flex items-center gap-1">
-                                    <i class="fa-regular fa-clock text-cyan-400 text-[10px]"></i> Expiration Date & Time (Optional)
+                                <label for="expiry-input" class="text-xs font-semibold text-stone-500 flex items-center gap-1">
+                                    <i class="fa-regular fa-clock text-pink-450 text-[10px]"></i> Expiration Date & Time (Optional)
                                 </label>
                                 <input type="datetime-local"
                                        id="expiry-input"
                                        name="expires_at"
-                                       class="w-full px-4 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800/80 focus:border-indigo-500/50 text-white placeholder-slate-700 text-xs outline-none transition-all">
-                                <span class="text-[10px] text-slate-600">Leave blank for no expiration (permanent link).</span>
+                                       class="w-full px-4 py-2.5 rounded-xl bg-white border border-stone-200/85 focus:border-indigo-400 text-stone-800 placeholder-stone-400 text-xs outline-none transition-all">
+                                <span class="text-[10px] text-stone-400">Leave blank for no expiration (permanent link).</span>
                             </div>
                         </div>
 
                         <!-- Submit Button -->
                         <div class="flex justify-end">
                             <button type="submit"
-                                    class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/15 border border-indigo-500/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer sm:min-w-[150px]">
+                                    class="w-full sm:w-auto py-4 px-8 rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-sm shadow-md shadow-indigo-100 border border-indigo-400/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer sm:min-w-[150px]">
                                 <span class="btn-text">Shorten Link</span>
                                 <span class="htmx-indicator"><i class="fa-solid fa-spinner animate-spin"></i> Working...</span>
                             </button>
@@ -182,31 +182,31 @@
 
         <!-- URLs Table Section -->
         <section class="table-section opacity-0 translate-y-6">
-            <div class="bg-slate-900/20 border border-slate-800/60 rounded-3xl backdrop-blur-md shadow-xl overflow-hidden p-6 sm:p-8">
+            <div class="bg-white border border-stone-200/80 rounded-3xl shadow-xl overflow-hidden p-6 sm:p-8">
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
                     <div>
-                        <h2 class="font-display font-bold text-xl text-white">Your Shortened URLs</h2>
-                        <p class="text-xs text-slate-500 font-light mt-0.5">A list of all short links you have created.</p>
+                        <h2 class="font-display font-bold text-xl text-stone-850">Your Shortened URLs</h2>
+                        <p class="text-xs text-stone-400 font-light mt-0.5">A list of all short links you have created.</p>
                     </div>
-                    <button onclick="loadUrls()" class="px-3.5 py-2 text-xs font-semibold rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 hover:border-slate-700 transition-all flex items-center gap-1.5 cursor-pointer">
+                    <button onclick="loadUrls()" class="px-3.5 py-2 text-xs font-semibold rounded-lg bg-stone-50 hover:bg-stone-100 text-stone-500 hover:text-stone-900 border border-stone-200/60 hover:border-stone-300 transition-all flex items-center gap-1.5 cursor-pointer">
                         <i class="fa-solid fa-arrows-rotate"></i> Refresh
                     </button>
                 </div>
 
                 <!-- Empty State -->
                 <div id="empty-state" class="hidden py-16 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600 mb-4">
+                    <div class="w-16 h-16 rounded-full bg-stone-50 border border-stone-100 flex items-center justify-center text-stone-400 mb-4">
                         <i class="fa-solid fa-link-slash text-xl"></i>
                     </div>
-                    <h3 class="font-display font-semibold text-base text-slate-300">No shortened URLs yet</h3>
-                    <p class="text-xs text-slate-500 mt-1 max-w-xs font-light">Paste a link in the form above and click shorten to create your first short URL.</p>
+                    <h3 class="font-display font-semibold text-base text-stone-600">No shortened URLs yet</h3>
+                    <p class="text-xs text-stone-400 mt-1 max-w-xs font-light">Paste a link in the form above and click shorten to create your first short URL.</p>
                 </div>
 
                 <!-- Table -->
                 <div id="urls-table" class="overflow-x-auto hidden">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="border-b border-slate-800 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            <tr class="border-b border-stone-100 text-xs font-semibold text-stone-500 uppercase tracking-wider">
                                 <th class="px-6 py-4 font-semibold">Original Destination</th>
                                 <th class="px-6 py-4 font-semibold">Short Link</th>
                                 <th class="px-6 py-4 font-semibold">Created At</th>
@@ -224,24 +224,24 @@
     </main>
 
     <!-- QR Code Modal (Hidden by default) -->
-    <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-slate-900/90 border border-slate-800/80 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center relative shadow-2xl scale-95 transition-all duration-300" id="qr-modal-card">
-            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors cursor-pointer text-sm">
+    <div id="qr-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white border border-stone-200/80 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center relative shadow-2xl scale-95 transition-all duration-300" id="qr-modal-card">
+            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-800 transition-colors cursor-pointer text-sm">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <h3 class="font-display font-bold text-lg text-white mb-1">Scan or Share Link</h3>
-            <p class="text-xs text-slate-500 mb-6 font-light">Below is the generated QR code for your shortened URL.</p>
+            <h3 class="font-display font-bold text-lg text-stone-850 mb-1">Scan or Share Link</h3>
+            <p class="text-xs text-stone-500 mb-6 font-light">Below is the generated QR code for your shortened URL.</p>
             
             <!-- QR Code Canvas Container -->
-            <div class="bg-white p-4 rounded-2xl inline-block shadow-inner mb-6 relative">
+            <div class="bg-stone-50 p-4 border border-stone-100 rounded-2xl inline-block shadow-inner mb-6 relative">
                 <canvas id="qr-canvas" class="mx-auto"></canvas>
             </div>
             
             <div class="flex flex-col gap-2">
-                <button onclick="downloadQRCode()" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+                <button onclick="downloadQRCode()" class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-xs shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer">
                     <i class="fa-solid fa-download"></i> Download QR Code
                 </button>
-                <div class="text-slate-500 text-[10px] mt-1 break-all select-all font-mono py-1.5 px-2.5 rounded bg-slate-950/60 border border-slate-800/60 text-center" id="qr-modal-link">
+                <div class="text-stone-500 text-[10px] mt-1 break-all select-all font-mono py-1.5 px-2.5 rounded bg-stone-50 border border-stone-150 text-center" id="qr-modal-link">
                     https://localhost:8000/xyz
                 </div>
             </div>
@@ -249,8 +249,8 @@
     </div>
 
     <!-- Footer -->
-    <footer class="relative z-10 p-6 text-center border-t border-slate-950 bg-slate-950/60">
-        <p class="text-xs text-slate-600 font-light">&copy; 2026 SnipLink. Fast routing via Redis Cache.</p>
+    <footer class="relative z-10 p-6 text-center border-t border-stone-100 bg-white/60">
+        <p class="text-xs text-stone-400 font-light">&copy; 2026 SnipLink. Fast routing via Redis Cache. ⚡</p>
     </footer>
 
     <!-- Scripts -->
@@ -313,14 +313,14 @@
         function showToast(message, type = "success") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `px-5 py-4 rounded-xl border backdrop-blur-md shadow-2xl flex items-center gap-3 pointer-events-auto translate-x-12 opacity-0 text-sm font-medium transition-all duration-300`;
+            toast.className = `px-5 py-4 rounded-xl border backdrop-blur-md shadow-lg flex items-center gap-3 pointer-events-auto translate-x-12 opacity-0 text-sm font-medium transition-all duration-300`;
             
             if (type === "success") {
-                toast.className += " bg-emerald-950/80 border-emerald-800 text-emerald-300";
-                toast.innerHTML = `<i class="fa-solid fa-circle-check text-base text-emerald-400"></i> <span>${message}</span>`;
+                toast.className += " bg-emerald-50 border-emerald-200 text-emerald-800";
+                toast.innerHTML = `<i class="fa-solid fa-circle-check text-base text-emerald-500"></i> <span>${message}</span>`;
             } else {
-                toast.className += " bg-rose-950/80 border-rose-800 text-rose-300";
-                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-base text-rose-400"></i> <span>${message}</span>`;
+                toast.className += " bg-rose-50 border-rose-200 text-rose-800";
+                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-base text-rose-500"></i> <span>${message}</span>`;
             }
             
             container.appendChild(toast);
@@ -405,7 +405,7 @@
         // Helper to construct a single table row element
         function createRowElement(url) {
             const tr = document.createElement('tr');
-            tr.className = "border-b border-slate-800/40 hover:bg-slate-900/20 transition-colors";
+            tr.className = "border-b border-stone-100 hover:bg-stone-50/50 transition-colors";
             
             // Format Created Date
             let dateStr = "Recently";
@@ -420,13 +420,13 @@
             
             // Format Expiration Date
             let expiryStr = "Never";
-            let expiryClass = "text-slate-500 font-light";
+            let expiryClass = "text-stone-400 font-light";
             if (url.expires_at) {
                 const expiryDate = new Date(url.expires_at);
                 const now = new Date();
                 if (expiryDate <= now) {
                     expiryStr = "Expired";
-                    expiryClass = "text-rose-500 font-semibold";
+                    expiryClass = "text-rose-500 font-semibold bg-rose-50 px-2 py-0.5 rounded-md";
                 } else {
                     expiryStr = expiryDate.toLocaleDateString(undefined, {
                         month: 'short',
@@ -435,18 +435,18 @@
                         hour: '2-digit',
                         minute: '2-digit'
                     });
-                    expiryClass = "text-amber-500/80 font-medium";
+                    expiryClass = "text-pink-500 font-medium";
                 }
             }
             
             tr.innerHTML = `
-                <td class="px-6 py-4 max-w-xs md:max-w-md truncate text-sm text-slate-300 font-light">
-                    <a href="${url.original_url}" target="_blank" class="hover:text-indigo-400 hover:underline transition-colors">${url.original_url}</a>
+                <td class="px-6 py-4 max-w-xs md:max-w-md truncate text-sm text-stone-600 font-light">
+                    <a href="${url.original_url}" target="_blank" class="hover:text-indigo-500 hover:underline transition-colors">${url.original_url}</a>
                 </td>
-                <td class="px-6 py-4 text-sm text-indigo-400 font-medium">
-                    <a href="${url.short_url}" target="_blank" class="hover:text-indigo-300 hover:underline transition-colors short-url-link">${url.short_url}</a>
+                <td class="px-6 py-4 text-sm text-indigo-500 font-medium">
+                    <a href="${url.short_url}" target="_blank" class="hover:text-indigo-600 hover:underline transition-colors short-url-link">${url.short_url}</a>
                 </td>
-                <td class="px-6 py-4 text-xs text-slate-500 font-light">
+                <td class="px-6 py-4 text-xs text-stone-400 font-light">
                     ${dateStr}
                 </td>
                 <td class="px-6 py-4 text-xs ${expiryClass}">
@@ -454,13 +454,13 @@
                 </td>
                 <td class="px-6 py-4 text-right">
                     <div class="flex items-center justify-end gap-2">
-                        <button onclick="copyToClipboard('${url.short_url}', this)" class="p-2 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800/80 hover:border-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer" title="Copy Link">
+                        <button onclick="copyToClipboard('${url.short_url}', this)" class="p-2 rounded-lg bg-stone-50 hover:bg-stone-100 border border-stone-200/60 hover:border-stone-300 text-stone-500 hover:text-stone-805 transition-all cursor-pointer" title="Copy Link">
                             <i class="fa-regular fa-copy"></i>
                         </button>
-                        <button onclick="openQRModal('${url.short_url}')" class="p-2 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800/80 hover:border-slate-700 text-slate-400 hover:text-white transition-all cursor-pointer" title="QR Code">
+                        <button onclick="openQRModal('${url.short_url}')" class="p-2 rounded-lg bg-stone-50 hover:bg-stone-100 border border-stone-200/60 hover:border-stone-300 text-stone-500 hover:text-stone-805 transition-all cursor-pointer" title="QR Code">
                             <i class="fa-solid fa-qrcode"></i>
                         </button>
-                        <button onclick="deleteUrl('${url.code}', this)" class="p-2 rounded-lg bg-slate-950 hover:bg-rose-955 hover:border-rose-900 border border-slate-800/80 text-slate-400 hover:text-rose-400 transition-all cursor-pointer" title="Delete Link">
+                        <button onclick="deleteUrl('${url.code}', this)" class="p-2 rounded-lg bg-stone-50 hover:bg-rose-50 border border-stone-200/60 hover:border-rose-200 text-stone-400 hover:text-rose-500 transition-all cursor-pointer" title="Delete Link">
                             <i class="fa-regular fa-trash-can"></i>
                         </button>
                     </div>
@@ -477,12 +477,12 @@
                 // Temporarily update button style to indicate success
                 const icon = btn.querySelector('i');
                 const originalClass = icon.className;
-                icon.className = "fa-solid fa-check text-emerald-400";
-                btn.classList.add('border-emerald-800/40', 'bg-emerald-950/20');
+                icon.className = "fa-solid fa-check text-emerald-500";
+                btn.classList.add('border-emerald-200', 'bg-emerald-50');
                 
                 setTimeout(() => {
                     icon.className = originalClass;
-                    btn.classList.remove('border-emerald-800/40', 'bg-emerald-950/20');
+                    btn.classList.remove('border-emerald-200', 'bg-emerald-50');
                 }, 2000);
             }).catch(err => {
                 console.error("Clipboard copy error:", err);
@@ -553,7 +553,7 @@
                 value: shortUrl,
                 size: 160,
                 background: '#ffffff',
-                foreground: '#0f172a',
+                foreground: '#292524',
                 level: 'H'
             });
             
@@ -567,6 +567,7 @@
             gsap.fromTo(card, { scale: 0.9, y: 15 }, { scale: 1, y: 0, duration: 0.4, ease: "back.out(1.4)" });
         }
 
+        // Close QR Code Modal
         function closeQRModal() {
             const modal = document.getElementById('qr-modal');
             const card = document.getElementById('qr-modal-card');
@@ -581,6 +582,7 @@
             gsap.to(card, { scale: 0.9, duration: 0.3 });
         }
 
+        // Download QR Code
         function downloadQRCode() {
             if (!activeQRUrl) return;
             const canvas = document.getElementById('qr-canvas');

@@ -25,13 +25,13 @@
                 extend: {
                     colors: {
                         brand: {
-                            bg: '#030712',
-                            card: '#0f172a',
-                            border: '#1e293b',
-                            primary: '#6366f1',
-                            secondary: '#06b6d4',
-                            accent: '#a855f7',
-                            text: '#f8fafc'
+                            bg: '#fbfaf7',
+                            card: '#ffffff',
+                            border: '#f1ede4',
+                            primary: '#818cf8',
+                            secondary: '#fb7185',
+                            accent: '#fda4af',
+                            text: '#292524'
                         }
                     },
                     fontFamily: {
@@ -45,7 +45,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #030712;
+            background-color: #fbfaf7;
             overflow: hidden;
         }
         .font-display {
@@ -62,11 +62,11 @@
         }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col justify-between relative">
+<body class="text-stone-800 min-h-screen flex flex-col justify-between relative">
 
     <!-- Background Ambient Glows -->
-    <div class="absolute top-[-20%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-indigo-950/15 blur-[130px] pointer-events-none z-0 blob-1"></div>
-    <div class="absolute bottom-[-20%] right-[-20%] w-[55vw] h-[55vw] rounded-full bg-purple-950/15 blur-[130px] pointer-events-none z-0 blob-2"></div>
+    <div class="absolute top-[-20%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-indigo-200/20 blur-[130px] pointer-events-none z-0 blob-1"></div>
+    <div class="absolute bottom-[-20%] right-[-20%] w-[55vw] h-[55vw] rounded-full bg-pink-200/25 blur-[130px] pointer-events-none z-0 blob-2"></div>
 
     <!-- Toast Container (Top Right for Notifications) -->
     <div id="toast-container" class="fixed top-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
@@ -75,12 +75,12 @@
     <header class="relative z-10 p-6">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="/index.html" class="flex items-center gap-2 group">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/10 group-hover:scale-105 transition-transform">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-400 to-pink-400 flex items-center justify-center text-white shadow-md shadow-indigo-200/50 group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-link text-sm"></i>
                 </div>
-                <span class="font-display font-bold text-xl bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">SnipLink</span>
+                <span class="font-display font-bold text-xl bg-gradient-to-r from-stone-800 to-stone-600 bg-clip-text text-transparent">SnipLink</span>
             </a>
-            <a href="/index.html" class="text-xs font-semibold text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-slate-900 border border-transparent hover:border-slate-800">
+            <a href="/index.html" class="text-xs font-semibold text-stone-500 hover:text-stone-900 transition-colors flex items-center gap-1.5 py-1 px-3 rounded-lg hover:bg-stone-100 border border-transparent hover:border-stone-200/60">
                 <i class="fa-solid fa-arrow-left-long"></i> Back to Home
             </a>
         </div>
@@ -88,13 +88,13 @@
 
     <!-- Center Card -->
     <main class="relative z-10 flex-grow flex items-center justify-center px-6 py-12">
-        <div class="auth-card opacity-0 translate-y-8 w-full max-w-md bg-slate-900/40 border border-slate-800/80 rounded-3xl p-8 backdrop-blur-md shadow-2xl relative overflow-hidden">
+        <div class="auth-card opacity-0 translate-y-8 w-full max-w-md bg-white border border-stone-200/80 rounded-3xl p-8 shadow-xl relative overflow-hidden">
             <!-- Glass header gradient overlay -->
-            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-500"></div>
+            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400"></div>
 
             <div class="mb-8 text-center">
-                <h2 class="font-display font-bold text-2xl sm:text-3xl text-white">Welcome Back</h2>
-                <p class="text-sm text-slate-400 mt-2 font-light">Sign in to manage and shorten your URLs.</p>
+                <h2 class="font-display font-bold text-2xl sm:text-3xl text-stone-850">Welcome Back</h2>
+                <p class="text-sm text-stone-500 mt-2 font-light">Sign in to manage and shorten your URLs.</p>
             </div>
 
             <!-- Form -->
@@ -107,9 +107,9 @@
 
                 <!-- Email Input -->
                 <div class="space-y-2">
-                    <label for="email" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Email Address</label>
+                    <label for="email" class="block text-xs font-semibold text-stone-500 uppercase tracking-wider">Email Address</label>
                     <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 text-sm">
                             <i class="fa-regular fa-envelope"></i>
                         </span>
                         <input type="email" 
@@ -117,17 +117,17 @@
                                name="email" 
                                required 
                                placeholder="john@example.com" 
-                               class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 text-white placeholder-slate-600 text-sm outline-none transition-all duration-200">
+                               class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-stone-50 border border-stone-200/80 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-200 text-stone-800 placeholder-stone-400 text-sm outline-none transition-all duration-200">
                     </div>
                 </div>
 
                 <!-- Password Input -->
                 <div class="space-y-2">
                     <div class="flex justify-between items-center">
-                        <label for="password" class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Password</label>
+                        <label for="password" class="block text-xs font-semibold text-stone-500 uppercase tracking-wider">Password</label>
                     </div>
                     <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 text-sm">
                             <i class="fa-solid fa-lock"></i>
                         </span>
                         <input type="password" 
@@ -135,22 +135,22 @@
                                name="password" 
                                required 
                                placeholder="••••••••" 
-                               class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-slate-950/60 border border-slate-800/80 focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 text-white placeholder-slate-600 text-sm outline-none transition-all duration-200">
+                               class="w-full pl-11 pr-4 py-3.5 rounded-xl bg-stone-50 border border-stone-200/80 focus:border-indigo-400 focus:ring-1 focus:ring-indigo-200 text-stone-800 placeholder-stone-400 text-sm outline-none transition-all duration-200">
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <button type="submit" 
-                        class="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/25 border border-indigo-500/30 transition-all duration-300 hover:shadow-indigo-500/30 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer">
+                        class="w-full py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-sm shadow-lg shadow-indigo-100 border border-indigo-400/20 transition-all duration-300 hover:shadow-indigo-200/40 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer">
                     <span class="btn-text">Sign In</span>
                     <span class="htmx-indicator"><i class="fa-solid fa-spinner animate-spin"></i> Authenticating...</span>
                 </button>
             </form>
 
-            <div class="mt-8 pt-6 border-t border-slate-800/80 text-center">
-                <p class="text-sm text-slate-400">
+            <div class="mt-8 pt-6 border-t border-stone-100 text-center">
+                <p class="text-sm text-stone-500">
                     Don't have an account? 
-                    <a href="/register.html" class="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">Sign Up</a>
+                    <a href="/register.html" class="text-indigo-500 hover:text-indigo-600 font-semibold transition-colors">Sign Up</a>
                 </p>
             </div>
         </div>
@@ -158,7 +158,7 @@
 
     <!-- Footer -->
     <footer class="relative z-10 p-6 text-center">
-        <p class="text-xs text-slate-600 font-light">&copy; 2026 SnipLink. Secured by AWS DynamoDB.</p>
+        <p class="text-xs text-stone-400 font-light">&copy; 2026 SnipLink. Secured by AWS DynamoDB.</p>
     </footer>
 
     <!-- Scripts -->
@@ -196,14 +196,14 @@
         function showToast(message, type = "success") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
-            toast.className = `px-5 py-4 rounded-xl border backdrop-blur-md shadow-2xl flex items-center gap-3 pointer-events-auto translate-x-12 opacity-0 text-sm font-medium transition-all duration-300`;
+            toast.className = `px-5 py-4 rounded-xl border backdrop-blur-md shadow-lg flex items-center gap-3 pointer-events-auto translate-x-12 opacity-0 text-sm font-medium transition-all duration-300`;
             
             if (type === "success") {
-                toast.className += " bg-emerald-950/80 border-emerald-800 text-emerald-300";
-                toast.innerHTML = `<i class="fa-solid fa-circle-check text-base text-emerald-400"></i> <span>${message}</span>`;
+                toast.className += " bg-emerald-50 border-emerald-200 text-emerald-800";
+                toast.innerHTML = `<i class="fa-solid fa-circle-check text-base text-emerald-500"></i> <span>${message}</span>`;
             } else {
-                toast.className += " bg-rose-950/80 border-rose-800 text-rose-300";
-                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-base text-rose-400"></i> <span>${message}</span>`;
+                toast.className += " bg-rose-50 border-rose-200 text-rose-800";
+                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation text-base text-rose-500"></i> <span>${message}</span>`;
             }
             
             container.appendChild(toast);
@@ -265,5 +265,7 @@
             }
         }
     </script>
+</body>
+</html>
 </body>
 </html>

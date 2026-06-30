@@ -342,7 +342,7 @@ def redirect_to_url(code: str, db: Session = Depends(get_db)):
             # Evict from Redis cache just in case
             cache.delete_cached_url(code)
             
-            # Return a beautiful glassmorphic HTML error page
+            # Return a beautiful minimal and cute HTML error page
             return HTMLResponse(
                 content="""
                 <!DOCTYPE html>
@@ -354,20 +354,20 @@ def redirect_to_url(code: str, db: Session = Depends(get_db)):
                     <script src="https://cdn.tailwindcss.com"></script>
                     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-                    <style>body { font-family: 'Outfit', sans-serif; background-color: #030712; }</style>
+                    <style>body { font-family: 'Outfit', sans-serif; background-color: #fbfaf7; }</style>
                 </head>
-                <body class="text-slate-200 min-h-screen flex flex-col items-center justify-center relative p-6">
-                    <div class="absolute top-[-20%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-indigo-950/10 blur-[130px] pointer-events-none"></div>
-                    <div class="absolute bottom-[-20%] right-[-20%] w-[55vw] h-[55vw] rounded-full bg-purple-950/10 blur-[130px] pointer-events-none"></div>
+                <body class="text-stone-800 min-h-screen flex flex-col items-center justify-center relative p-6">
+                    <div class="absolute top-[-20%] left-[-20%] w-[60vw] h-[60vw] rounded-full bg-indigo-200/20 blur-[130px] pointer-events-none"></div>
+                    <div class="absolute bottom-[-20%] right-[-20%] w-[55vw] h-[55vw] rounded-full bg-pink-200/25 blur-[130px] pointer-events-none"></div>
                     
-                    <div class="bg-slate-900/40 border border-slate-800/80 p-8 sm:p-10 rounded-3xl max-w-md w-full text-center backdrop-blur-md shadow-2xl relative">
-                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-amber-500 rounded-t-3xl"></div>
-                        <div class="w-20 h-20 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-500 flex items-center justify-center mx-auto mb-6 text-3xl">
+                    <div class="bg-white border border-stone-200/80 p-8 sm:p-10 rounded-3xl max-w-md w-full text-center shadow-xl relative">
+                        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-400 to-amber-400 rounded-t-3xl"></div>
+                        <div class="w-20 h-20 rounded-full bg-rose-50 border border-rose-100 text-rose-500 flex items-center justify-center mx-auto mb-6 text-3xl">
                             <i class="fa-solid fa-hourglass-end"></i>
                         </div>
-                        <h1 class="text-2xl font-bold text-white mb-2 font-display">Link Has Expired</h1>
-                        <p class="text-slate-400 text-sm font-light mb-6">The short link you are trying to access has reached its expiration date and is no longer available.</p>
-                        <a href="/" class="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-sm transition-all">
+                        <h1 class="text-2xl font-bold text-stone-850 mb-2 font-display">Link Has Expired ⏳</h1>
+                        <p class="text-stone-500 text-sm font-light mb-6">The short link you are trying to access has reached its expiration date and is no longer available.</p>
+                        <a href="/" class="inline-block px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-pink-500 hover:from-indigo-400 hover:to-pink-400 text-white font-semibold text-sm shadow-md border border-indigo-400/20 transition-all">
                             Back to Home
                         </a>
                     </div>
